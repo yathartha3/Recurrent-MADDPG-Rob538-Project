@@ -253,9 +253,9 @@ class MADDPG(object):
                 for oobsp in env.observation_space:
                     num_in_critic += oobsp.shape[0]
                 for oacsp in env.action_space:
-                    num_in_critic += get_shape(oacsp)
+                    num_in_critic += get_shape(oacsp)    # Here, we have the critic's input space
             else:
-                num_in_critic = obsp.shape[0] + get_shape(acsp)     # Here, we have the critic's input space
+                num_in_critic = obsp.shape[0] + get_shape(acsp)
             agent_init_params.append({'num_in_pol': num_in_pol,     # actor policy inputs
                                       'num_out_pol': num_out_pol,   # actor policy outputs
                                       'num_in_critic': num_in_critic})

@@ -69,6 +69,67 @@ def run(config):
                                  [acsp.shape[0] if isinstance(acsp, Box) else acsp.n
                                   for acsp in env.action_space])
 
+    t = 0
+    # START EPISODES
+    for ep_i in range(0, config.n_episodes, config.n_rollout_threads):
+        print("Episodes %i-%i of %i" % (ep_i + 1,
+                                        ep_i + 1 + config.n_rollout_threads,
+                                        config.n_episodes))
+
+        # List of Observations for each of the agents
+        # E.g., For simple_spread, shape is {1,3,18}
+        obs = env.reset()
+        maddpg.prep_rollouts(device='cpu')
+
+        # Exploration percentage remaining. IDK if this is a standard way of doing it however.
+        explr_pct_remaining = max(0, config.n_exploration_eps - ep_i) / config.n_exploration_eps
+        maddpg.scale_noise(config.final_noise_scale + (config.init_noise_scale - config.final_noise_scale) * explr_pct_remaining)
+        maddpg.reset_noise()
+
+        # START TIME-STEPS
+        for et_i in range(config.episode_length):
+            # rearrange observations to be per agent, and convert to torch Variable
+            torch_obs = [Variable(torch.Tensor(np.vstack(obs[:, i])),
+                                  requires_grad=False)
+                         for i in range(maddpg.nagents)]
+            # get actions (from learning algorithm) as torch Variables. For simple_spread this is discrete[5]
+            torch_agent_actions = maddpg.step(torch_obs, explore=True)
+            # convert actions to numpy arrays
+            agent_actions = [ac.data.numpy() for ac in torch_agent_actions]    # print(torch_agent_actions[0].data)
+            # rearrange actions to be per environment. For single thread, it wont really matter.
+            actions = [[ac[i] for ac in agent_actions] for i in range(config.n_rollout_threads)]
+            next_obs, rewards, dones, infos = env.step(actions)
+            replay_buffer.push(obs, agent_actions, rewards, next_obs, dones)
+            obs = next_obs
+            t += config.n_rollout_threads
+            if (len(replay_buffer) >= config.batch_size and
+                (t % config.steps_per_update) < config.n_rollout_threads):
+                if USE_CUDA:
+                    maddpg.prep_training(device='gpu')
+                else:
+                    maddpg.prep_training(device='cpu')
+                for u_i in range(config.n_rollout_threads):
+                    for a_i in range(maddpg.nagents):
+                        sample = replay_buffer.sample(config.batch_size,
+                                                      to_gpu=USE_CUDA)
+                        maddpg.update(sample, a_i, logger=logger)
+                    maddpg.update_all_targets()
+                maddpg.prep_rollouts(device='cpu')
+        ep_rews = replay_buffer.get_average_rewards(
+            config.episode_length * config.n_rollout_threads)
+        for a_i, a_ep_rew in enumerate(ep_rews):
+            logger.add_scalar('agent%i/mean_episode_rewards' % a_i, a_ep_rew, ep_i)
+
+        if ep_i % config.save_interval < config.n_rollout_threads:
+            os.makedirs(run_dir / 'incremental', exist_ok=True)
+            maddpg.save(run_dir / 'incremental' / ('model_ep%i.pt' % (ep_i + 1)))
+            maddpg.save(run_dir / 'model.pt')
+
+    maddpg.save(run_dir / 'model.pt')
+    env.close()
+    logger.export_scalars_to_json(str(log_dir / 'summary.json'))
+    logger.close()
+
     print()
 
 
@@ -110,6 +171,12 @@ def parse_arguments():
 
 
 if __name__=="__main__":
+    '''
+    Having rollout_threads more than 1 will create multiple environments I reckon.
+    So it can run multiple instances of the environment in parallel. This will make it run "Asynchronously".
+    Basically, this should allow the algorithm to run without using replay buffer (what paper was it..?)
+    However, I don't know if we can get rid of replay buffer.
+    '''
     parse_arguments()
     config = parser.parse_args()
 
