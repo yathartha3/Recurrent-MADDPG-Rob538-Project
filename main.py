@@ -10,7 +10,7 @@ from tensorboardX import SummaryWriter
 from utils.make_env import make_env
 from utils.buffer import ReplayBuffer
 from utils.env_wrappers import SubprocVecEnv, DummyVecEnv
-from Algorithms.maddpg import MADDPG
+from algorithms.maddpg import MADDPG
 
 USE_CUDA = False
 

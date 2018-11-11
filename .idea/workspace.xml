@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5a48b268-f54a-4138-96ed-439c1b708dac" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/Algorithms/maddpg.py" beforeDir="false" afterPath="$PROJECT_DIR$/Algorithms/maddpg.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Algorithms/maddpg.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multiagent-particle-envs" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -17,7 +19,8 @@
         <counts>
           <entry key="project.closed" value="1" />
           <entry key="project.open.time.0" value="1" />
-          <entry key="project.opened" value="1" />
+          <entry key="project.open.time.12" value="1" />
+          <entry key="project.opened" value="2" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -32,27 +35,26 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="py" value="2067" />
+          <entry key="py" value="2068" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Python" value="2067" />
+          <entry key="Python" value="2068" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file pinned="false" current-in-tab="false">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="225">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="486">
-              <caret line="100" column="53" selection-start-line="100" selection-start-column="53" selection-end-line="100" selection-end-column="53" />
+            <state relative-caret-position="102">
+              <caret line="6" column="24" selection-start-line="6" selection-start-column="24" selection-end-line="6" selection-end-column="24" />
               <folding>
-                <element signature="e#0#15#0" expanded="true" />
-                <marker date="1541902532896" expanded="true" signature="904:5812" ph="..." />
-                <marker date="1541902532896" expanded="false" signature="5834:5839" ph="..." />
+                <marker date="1541980414688" expanded="true" signature="904:5812" ph="..." />
+                <marker date="1541980414688" expanded="false" signature="5834:5839" ph="..." />
               </folding>
             </state>
           </provider>
@@ -61,22 +63,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/baselines/baselines/common/vec_env/__init__.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="731">
+            <state relative-caret-position="1258">
               <caret line="75" column="8" selection-start-line="75" selection-start-column="8" selection-end-line="75" selection-end-column="8" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Algorithms/maddpg.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="561">
-              <caret line="33" column="26" selection-start-line="33" selection-start-column="26" selection-end-line="33" selection-end-column="26" />
-              <folding>
-                <element signature="e#0#12#0" expanded="true" />
-                <marker date="1541907268242" expanded="true" signature="297:298" ph="..." />
-                <marker date="1541907268242" expanded="true" signature="297:12007" ph="..." />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -84,17 +72,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/utils/agents.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
+            <state relative-caret-position="323">
               <caret line="24" column="46" selection-start-line="24" selection-start-column="33" selection-end-line="24" selection-end-column="46" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../../multiagent-particle-envs/multiagent/environment.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="282">
-              <caret line="124" column="8" selection-start-line="124" selection-start-column="8" selection-end-line="124" selection-end-column="8" />
+            <state relative-caret-position="367">
+              <caret line="120" column="21" selection-start-line="120" selection-start-column="21" selection-end-line="120" selection-end-column="21" />
               <folding>
                 <element signature="e#0#10#0" expanded="true" />
               </folding>
@@ -105,7 +93,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../../multiagent-particle-envs/multiagent/scenarios/simple_spread.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1717">
+            <state relative-caret-position="1683">
               <caret line="101" selection-start-line="101" selection-end-line="101" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
@@ -135,17 +123,17 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/main.py" />
         <option value="$PROJECT_DIR$/../../multiagent-particle-envs/multiagent/scenarios/simple_spread.py" />
         <option value="$PROJECT_DIR$/Algorithms/maddpg.py" />
+        <option value="$PROJECT_DIR$/main.py" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds">
-    <option name="x" value="49" />
+  <component name="ProjectFrameBounds" extendedState="4">
+    <option name="x" value="57" />
     <option name="y" value="18" />
-    <option name="width" value="1231" />
-    <option name="height" value="721" />
+    <option name="width" value="1526" />
+    <option name="height" value="1121" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -153,6 +141,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -168,32 +157,12 @@
             <path>
               <item name="ProjectFromScratch" type="b2602c69:ProjectViewProjectNode" />
               <item name="ProjectFromScratch" type="47feb1d3:ProjectViewModuleNode" />
-              <item name="ProjectFromScratch" type="462c0819:PsiDirectoryNode" />
-              <item name="Algorithms" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ProjectFromScratch" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ProjectFromScratch" type="47feb1d3:ProjectViewModuleNode" />
               <item name="multiagent-particle-envs" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ProjectFromScratch" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ProjectFromScratch" type="47feb1d3:ProjectViewModuleNode" />
-              <item name="multiagent-particle-envs" type="462c0819:PsiDirectoryNode" />
-              <item name="multiagent" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ProjectFromScratch" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ProjectFromScratch" type="47feb1d3:ProjectViewModuleNode" />
-              <item name="multiagent-particle-envs" type="462c0819:PsiDirectoryNode" />
-              <item name="multiagent" type="462c0819:PsiDirectoryNode" />
-              <item name="scenarios" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -259,18 +228,19 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="49" y="18" width="1231" height="721" extended-state="0" />
+    <frame x="57" y="18" width="1526" height="1121" extended-state="4" />
+    <editor active="true" />
     <layout>
-      <window_info id="Favorites" side_tool="true" />
-      <window_info content_ui="combo" id="Project" order="0" weight="0.11599099" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.20902455" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Version Control" order="0" show_stripe_button="false" />
       <window_info anchor="bottom" id="Python Console" order="1" />
       <window_info anchor="bottom" id="Terminal" order="2" weight="0.32822084" />
       <window_info anchor="bottom" id="Event Log" order="3" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="4" />
       <window_info anchor="bottom" id="Find" order="5" weight="0.27699018" />
-      <window_info anchor="bottom" id="Run" order="6" />
+      <window_info active="true" anchor="bottom" id="Run" order="6" visible="true" weight="0.3297244" />
       <window_info anchor="bottom" id="Cvs" order="7" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="8" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="9" />
@@ -376,47 +346,43 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/utils/agents.py">
+    <entry file="file://$PROJECT_DIR$/baselines/baselines/common/vec_env/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="24" column="46" selection-start-line="24" selection-start-column="33" selection-end-line="24" selection-end-column="46" />
+        <state relative-caret-position="1258">
+          <caret line="75" column="8" selection-start-line="75" selection-start-column="8" selection-end-line="75" selection-end-column="8" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Algorithms/maddpg.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="561">
+        <state relative-caret-position="476">
           <caret line="33" column="26" selection-start-line="33" selection-start-column="26" selection-end-line="33" selection-end-column="26" />
           <folding>
             <element signature="e#0#12#0" expanded="true" />
-            <marker date="1541907268242" expanded="true" signature="297:298" ph="..." />
-            <marker date="1541907268242" expanded="true" signature="297:12007" ph="..." />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main.py">
+    <entry file="file://$PROJECT_DIR$/utils/agents.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="486">
-          <caret line="100" column="53" selection-start-line="100" selection-start-column="53" selection-end-line="100" selection-end-column="53" />
+        <state relative-caret-position="323">
+          <caret line="24" column="46" selection-start-line="24" selection-start-column="33" selection-end-line="24" selection-end-column="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../multiagent-particle-envs/multiagent/environment.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="367">
+          <caret line="120" column="21" selection-start-line="120" selection-start-column="21" selection-end-line="120" selection-end-column="21" />
           <folding>
-            <element signature="e#0#15#0" expanded="true" />
-            <marker date="1541902532896" expanded="true" signature="904:5812" ph="..." />
-            <marker date="1541902532896" expanded="false" signature="5834:5839" ph="..." />
+            <element signature="e#0#10#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/baselines/baselines/common/vec_env/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="731">
-          <caret line="75" column="8" selection-start-line="75" selection-start-column="8" selection-end-line="75" selection-end-column="8" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../../multiagent-particle-envs/multiagent/scenarios/simple_spread.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1717">
+        <state relative-caret-position="1683">
           <caret line="101" selection-start-line="101" selection-end-line="101" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
@@ -424,12 +390,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../multiagent-particle-envs/multiagent/environment.py">
+    <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="282">
-          <caret line="124" column="8" selection-start-line="124" selection-start-column="8" selection-end-line="124" selection-end-column="8" />
+        <state relative-caret-position="102">
+          <caret line="6" column="24" selection-start-line="6" selection-start-column="24" selection-end-line="6" selection-end-column="24" />
           <folding>
-            <element signature="e#0#10#0" expanded="true" />
+            <marker date="1541980414688" expanded="true" signature="904:5812" ph="..." />
+            <marker date="1541980414688" expanded="false" signature="5834:5839" ph="..." />
           </folding>
         </state>
       </provider>
