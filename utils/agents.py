@@ -1,7 +1,7 @@
 from torch import Tensor
 from torch.autograd import Variable
 from torch.optim import Adam
-from .networks import MLPNetwork
+from .networks import MLPNetwork, RNNNetwork
 from .misc import hard_update, gumbel_softmax, onehot_from_logits
 from .noise import OUNoise
 
@@ -11,24 +11,39 @@ class DDPGAgent(object):
     critic, exploration noise)
     """
     def __init__(self, num_in_pol, num_out_pol, num_in_critic, hidden_dim=64,
-                 lr=0.01, discrete_action=True):
+                 lr=0.01, discrete_action=True, isRNN=True):
         """
         Inputs:
             num_in_pol (int): number of dimensions for policy input
             num_out_pol (int): number of dimensions for policy output
             num_in_critic (int): number of dimensions for critic input
         """
-        self.policy = MLPNetwork(num_in_pol, num_out_pol,
-                                 hidden_dim=hidden_dim,
-                                 constrain_out=True,
-                                 discrete_action=discrete_action)
+        self.isRNN = isRNN
+
+        if not self.isRNN:
+            self.policy = MLPNetwork(num_in_pol, num_out_pol,
+                                     hidden_dim=hidden_dim,
+                                     constrain_out=True,
+                                     discrete_action=discrete_action)
+            self.target_policy = MLPNetwork(num_in_pol, num_out_pol,
+                                            hidden_dim=hidden_dim,
+                                            constrain_out=True,
+                                            discrete_action=discrete_action)
+        else:
+            self.policy = RNNNetwork(num_in_pol, num_out_pol,
+                                     hidden_dim=hidden_dim,
+                                     constrain_out=True,
+                                     discrete_action=discrete_action)
+            self.target_policy = RNNNetwork(num_in_pol, num_out_pol,
+                                            hidden_dim=hidden_dim,
+                                            constrain_out=True,
+                                            discrete_action=discrete_action)
+            self.hidden_state = self.policy.initHidden()
+            print("\nRNN actor policy\n")
+
         self.critic = MLPNetwork(num_in_critic, 1,
                                  hidden_dim=hidden_dim,
                                  constrain_out=False)
-        self.target_policy = MLPNetwork(num_in_pol, num_out_pol,
-                                        hidden_dim=hidden_dim,
-                                        constrain_out=True,
-                                        discrete_action=discrete_action)
         self.target_critic = MLPNetwork(num_in_critic, 1,
                                         hidden_dim=hidden_dim,
                                         constrain_out=False)
@@ -61,7 +76,16 @@ class DDPGAgent(object):
         Outputs:
             action (PyTorch Variable): Actions for this agent
         """
-        action = self.policy(obs)
+
+        if not self.isRNN:
+            action = self.policy(obs)
+            hidden = None
+        else:
+            hidden = self.hidden_state
+            action, hidden = self.policy(obs, hidden)
+            self.hidden_state = hidden
+            # I know this is redundant
+
         if self.discrete_action:
             if explore:
                 action = gumbel_softmax(action, hard=True)

@@ -33,6 +33,7 @@ class MADDPG(object):
         self.alg_types = alg_types
         self.agents = [DDPGAgent(lr=lr, discrete_action=discrete_action,
                                  hidden_dim=hidden_dim,
+                                 isRNN=False,                #TODO: RNN or not?
                                  **params)
                        for params in agent_init_params]
         self.agent_init_params = agent_init_params

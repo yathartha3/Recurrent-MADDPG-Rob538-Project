@@ -63,7 +63,8 @@ def run(config):
                                   adversary_alg=config.adversary_alg,
                                   tau=config.tau,
                                   lr=config.lr,
-                                  hidden_dim=config.hidden_dim)
+                                  hidden_dim=config.hidden_dim,
+                                  )
     replay_buffer = ReplayBuffer(config.buffer_length, maddpg.nagents,
                                  [obsp.shape[0] for obsp in env.observation_space],
                                  [acsp.shape[0] if isinstance(acsp, Box) else acsp.n
@@ -92,13 +93,18 @@ def run(config):
             torch_obs = [Variable(torch.Tensor(np.vstack(obs[:, i])),
                                   requires_grad=False)
                          for i in range(maddpg.nagents)]
+
             # get actions (from learning algorithm) as torch Variables. For simple_spread this is discrete[5]
             torch_agent_actions = maddpg.step(torch_obs, explore=True)
+
             # convert actions to numpy arrays
             agent_actions = [ac.data.numpy() for ac in torch_agent_actions]    # print(torch_agent_actions[0].data)
             # rearrange actions to be per environment. For single thread, it wont really matter.
             actions = [[ac[i] for ac in agent_actions] for i in range(config.n_rollout_threads)]
             next_obs, rewards, dones, infos = env.step(actions)
+
+
+            # for RNN, replay buffer needs to store for e.g., states=[obs_t-2, obs_t-1, obs_t]
             replay_buffer.push(obs, agent_actions, rewards, next_obs, dones)
             obs = next_obs
             t += config.n_rollout_threads
@@ -179,6 +185,7 @@ if __name__=="__main__":
     '''
     parse_arguments()
     config = parser.parse_args()
+    rnn = True    # also need to set this inside MADDPG class. Make args later.
 
     print("Done")
     run(config)

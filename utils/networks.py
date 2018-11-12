@@ -1,5 +1,6 @@
 import torch.nn as nn
 import torch.nn.functional as F
+import torch
 
 class MLPNetwork(nn.Module):
     """
@@ -44,3 +45,47 @@ class MLPNetwork(nn.Module):
         h2 = self.nonlin(self.fc2(h1))
         out = self.out_fn(self.fc3(h2))
         return out
+
+
+class RNNNetwork(nn.Module):
+    """
+    RNN network. Experimenting with using it as both policy and value function.
+    """
+    def __init__(self, input_dim, out_dim, hidden_dim=64, nonlin=F.relu,
+                 constrain_out=False, norm_in=True, discrete_action=True):
+
+        super(RNNNetwork, self).__init__()
+
+        if norm_in:  # normalize inputs
+            self.in_fn = nn.BatchNorm1d(input_dim)
+            self.in_fn.weight.data.fill_(1)
+            self.in_fn.bias.data.fill_(0)
+        else:
+            self.in_fn = lambda x: x
+
+        self.fc1 = nn.Linear(input_dim, hidden_dim)
+        # input to hidden unit
+        self.i2h = nn.Linear(input_dim + hidden_dim, hidden_dim)
+        self.i2o = nn.Linear(input_dim + hidden_dim, out_dim)
+        self.nonlin = nonlin
+
+        if constrain_out and not discrete_action:
+            # initialize small to prevent saturation
+            self.i2o.weight.data.uniform_(-3e-3, 3e-3)
+            self.out_fn = F.tanh
+        else:  # logits for discrete action (will softmax later)
+            self.out_fn = lambda x: x
+
+    def forward(self, X, hidden):
+        X = self.fc1(X)
+        combined = torch.cat((X, hidden), 1)
+        # update the hidden states
+        hidden = self.i2h(combined)
+        # get output
+        output = self.i2o(combined)
+        output = self.out_fn(output)
+        return output, hidden
+
+    def initHidden(self):
+        return torch.zeros(1, self.hidden_size)
+
