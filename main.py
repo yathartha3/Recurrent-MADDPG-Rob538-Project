@@ -66,10 +66,17 @@ def run(config):
                                   lr=config.lr,
                                   hidden_dim=config.hidden_dim,
                                   )
-    replay_buffer = ReplayBuffer(config.buffer_length, maddpg.nagents,
-                                 [obsp.shape[0] for obsp in env.observation_space],
-                                 [acsp.shape[0] if isinstance(acsp, Box) else acsp.n
-                                  for acsp in env.action_space])
+    if not rnn:
+        replay_buffer = ReplayBuffer(config.buffer_length, maddpg.nagents,
+                                     [obsp.shape[0] for obsp in env.observation_space],
+                                     [acsp.shape[0] if isinstance(acsp, Box) else acsp.n
+                                      for acsp in env.action_space])
+    else:
+        # replay buffer obs space size is increased
+        rnn_replay_buffer = ReplayBuffer(config.buffer_length, maddpg.nagents,
+                                     [obsp.shape[0]*history_steps for obsp in env.observation_space],
+                                     [acsp.shape[0] if isinstance(acsp, Box) else acsp.n
+                                      for acsp in env.action_space])
 
     t = 0
     #####################################################################################################
@@ -88,7 +95,8 @@ def run(config):
         obs_tminus_0 = copy(obs)
         obs_tminus_1 = copy(obs)
         obs_tminus_2 = copy(obs)
-        obs_history =  np.empty([1,3,54])
+        obs_history = np.empty([1,3,54])
+        next_obs_history = np.empty([1,3,54])
 
         maddpg.prep_rollouts(device='cpu')
 
@@ -103,7 +111,7 @@ def run(config):
 
         for et_i in range(config.episode_length):
 
-            # Populate history
+            # Populate current history
             for a in range(3):  # env.nagents
                 for n in range(3):  # time history length
                     obs_history[0][a][:] = np.concatenate((obs_tminus_0[0][a][:], obs_tminus_1[0][a][:], obs_tminus_2[0][a][:]))
@@ -115,6 +123,7 @@ def run(config):
                          for i in range(maddpg.nagents)]
 
             # get actions (from learning algorithm) as torch Variables. For simple_spread this is discrete[5]
+            # TODO: for RNN, actions should condition on history
             torch_agent_actions = maddpg.step(torch_obs, explore=True)
 
             # convert actions to numpy arrays
@@ -123,10 +132,18 @@ def run(config):
             actions = [[ac[i] for ac in agent_actions] for i in range(config.n_rollout_threads)]
             next_obs, rewards, dones, infos = env.step(actions)
 
+            # TODO: Create history for next state
+            for a in range(3):      # env.nagents
+                for n in range(3):  # time history length
+                    next_obs_history[0][a][:] = np.concatenate((next_obs[0][a][:], obs_tminus_0[0][a][:], obs_tminus_1[0][a][:]))
+                    # Now, next_obs_history has history of 3 timesteps for each agent the next state
 
             # for RNN, replay buffer needs to store for e.g., states=[obs_t-2, obs_t-1, obs_t]
-            replay_buffer.push(obs, agent_actions, rewards, next_obs, dones)
-            obs = next_obs
+            if not rnn:
+                replay_buffer.push(obs, agent_actions, rewards, next_obs, dones)
+                obs = next_obs
+            else:
+                rnn_replay_buffer.push(obs_history, agent_actions, rewards, next_obs_history, dones)
 
             # Update histories
             obs_tminus_2 = copy(obs_tminus_1)
@@ -212,6 +229,17 @@ if __name__=="__main__":
     parse_arguments()
     config = parser.parse_args()
     rnn = True    # also need to set this inside MADDPG class. Make args later.
+    if rnn:
+        history_steps = 3
 
-    print("Done")
     run(config)
+    print("Done")
+
+    """
+    TODO:
+    * (done) add history_buffer (concatenated observations) to replay buffer
+    * (done) create next_obs_history to store next state in replay buffer
+    * actions should be based on history_buffer
+    * retrieve this and make it work with RNN model 
+    
+    """

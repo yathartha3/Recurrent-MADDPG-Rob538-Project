@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5a48b268-f54a-4138-96ed-439c1b708dac" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/history_buffer.py" beforeDir="false" afterPath="$PROJECT_DIR$/history_buffer.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -24,40 +23,43 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="py" value="27" />
+          <entry key="py" value="28" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="Python" value="27" />
+          <entry key="Python" value="28" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="Python Console" value="437" />
-          <entry key="py" value="7284" />
+          <entry key="py" value="7978" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Python" value="7721" />
+          <entry key="Python" value="8415" />
         </counts>
       </usages-collector>
     </session>
+  </component>
+  <component name="FavoritesManager">
+    <favorites_list name="ProjectFromScratch" />
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="225">
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="414">
-              <caret line="109" column="73" selection-start-line="109" selection-start-column="73" selection-end-line="109" selection-end-column="73" />
+            <state relative-caret-position="263">
+              <caret line="150" column="40" selection-start-line="150" selection-start-column="32" selection-end-line="150" selection-end-column="40" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
                 <element signature="e#472#885#0" />
                 <element signature="e#1087#1402#0" />
-                <marker date="1542056912520" expanded="true" signature="926:7244" ph="..." />
-                <marker date="1542056912520" expanded="false" signature="7266:7271" ph="..." />
+                <marker date="1542059207500" expanded="true" signature="926:8331" ph="..." />
+                <marker date="1542059207500" expanded="false" signature="8353:8358" ph="..." />
               </folding>
             </state>
           </provider>
@@ -249,13 +251,22 @@
     </task>
     <servers />
   </component>
+  <component name="TodoView" selected-index="3">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+  </component>
   <component name="ToolWindowManager">
     <frame x="49" y="-3" width="1231" height="803" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" weight="0.16666667" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.24979044" />
+      <window_info id="Favorites" order="2" side_tool="true" weight="0.32942164" />
       <window_info anchor="bottom" id="Version Control" order="0" show_stripe_button="false" />
       <window_info anchor="bottom" id="Python Console" order="1" weight="0.3008596" />
       <window_info anchor="bottom" id="Terminal" order="2" weight="0.30229226" />
@@ -264,12 +275,12 @@
       <window_info anchor="bottom" id="Find" order="5" weight="0.27699018" />
       <window_info anchor="bottom" id="Cvs" order="6" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="7" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="8" />
+      <window_info anchor="bottom" id="TODO" order="8" weight="0.3295129" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="right" id="Debug" order="3" weight="0.44761106" />
-      <window_info anchor="right" id="Run" order="4" weight="0.526404" />
+      <window_info anchor="right" id="Debug" order="3" weight="0.40653813" />
+      <window_info anchor="right" id="Run" order="4" weight="0.35373008" />
     </layout>
     <layout-to-restore>
       <window_info id="Favorites" order="0" side_tool="true" />
@@ -311,6 +322,31 @@
   <component name="debuggerHistoryManager">
     <expressions id="evaluateCodeFragment">
       <expression>
+        <expression-string>env.observation_space[0].shape[0]*3</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>env.observation_space[0].shape[0]</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>env.observation_space[0]</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>obsp</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>obsp.shape[0]</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
+      </expression>
+      <expression>
         <expression-string>temp[0][a][:] = np.concatenate((obs_tminus_0[0][a][:], obs_tminus_0[0][a][:], obs_tminus_0[0][a][:]))</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
@@ -327,37 +363,6 @@
       </expression>
       <expression>
         <expression-string>v = []</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>v = obs[0][0][:]</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>#temp[0][0][:] = np.concatenate((obs_tminus_0[0][a][n], obs_tminus_0[0][a][n], obs_tminus_0[0][a][n]))</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>#temp[0][0][:] = np.concatenate((obs_tminus_0[0][a][n], obs_tminus_0[0][a][n], obs_tminus_0[0][a][n]))
-
-v</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>#temp[0][0][:] = np.concatenate((obs_tminus_0[0][a][n], obs_tminus_0[0][a][n], obs_tminus_0[0][a][n]))
-
-v = obs_tminus_0[0][0]</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>#temp[0][0][:] = np.concatenate((obs_tminus_0[0][a][n], obs_tminus_0[0][a][n], obs_tminus_0[0][a][n]))
-
-obs_tminus_0[0][0]</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
       </expression>
@@ -543,16 +548,23 @@ obs_tminus_0[0][0]</expression-string>
         </state>
       </provider>
     </entry>
+    <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/_pydev_imps/_pydev_execfile.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="17" selection-start-line="17" selection-end-line="17" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="414">
-          <caret line="109" column="73" selection-start-line="109" selection-start-column="73" selection-end-line="109" selection-end-column="73" />
+        <state relative-caret-position="263">
+          <caret line="150" column="40" selection-start-line="150" selection-start-column="32" selection-end-line="150" selection-end-column="40" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
             <element signature="e#472#885#0" />
             <element signature="e#1087#1402#0" />
-            <marker date="1542056912520" expanded="true" signature="926:7244" ph="..." />
-            <marker date="1542056912520" expanded="false" signature="7266:7271" ph="..." />
+            <marker date="1542059207500" expanded="true" signature="926:8331" ph="..." />
+            <marker date="1542059207500" expanded="false" signature="8353:8358" ph="..." />
           </folding>
         </state>
       </provider>
