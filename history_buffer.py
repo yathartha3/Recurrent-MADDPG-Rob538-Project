@@ -10,7 +10,7 @@ obs_tminus_2 = obs
 
 for t in range(timesteps):               # main.py loop
     
-    obs_history[n] = obs_tminus_0        # Just to give obs_history the same list shape.
+    obs_history = obs_tminus_0        # Just to give obs_history the same list shape.
     
     # Make obs_history to feed into the policy
     for a in range(num_agents):          # for each agent

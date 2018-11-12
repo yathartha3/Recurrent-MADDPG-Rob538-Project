@@ -11,6 +11,7 @@ from utils.make_env import make_env
 from utils.buffer import ReplayBuffer
 from utils.env_wrappers import SubprocVecEnv, DummyVecEnv
 from algorithms.maddpg import MADDPG
+from copy import copy
 
 USE_CUDA = False
 
@@ -71,7 +72,9 @@ def run(config):
                                   for acsp in env.action_space])
 
     t = 0
-    # START EPISODES
+    #####################################################################################################
+    #                                       START EPISODES                                              #
+    #####################################################################################################
     for ep_i in range(0, config.n_episodes, config.n_rollout_threads):
         print("Episodes %i-%i of %i" % (ep_i + 1,
                                         ep_i + 1 + config.n_rollout_threads,
@@ -80,6 +83,13 @@ def run(config):
         # List of Observations for each of the agents
         # E.g., For simple_spread, shape is {1,3,18}
         obs = env.reset()
+
+        # For RNN history buffer
+        obs_tminus_0 = copy(obs)
+        obs_tminus_1 = copy(obs)
+        obs_tminus_2 = copy(obs)
+        obs_history =  np.empty([1,3,54])
+
         maddpg.prep_rollouts(device='cpu')
 
         # Exploration percentage remaining. IDK if this is a standard way of doing it however.
@@ -87,8 +97,18 @@ def run(config):
         maddpg.scale_noise(config.final_noise_scale + (config.init_noise_scale - config.final_noise_scale) * explr_pct_remaining)
         maddpg.reset_noise()
 
-        # START TIME-STEPS
+        ##################################################################################################
+        #                                       START TIME-STEPS                                         #
+        ##################################################################################################
+
         for et_i in range(config.episode_length):
+
+            # Populate history
+            for a in range(3):  # env.nagents
+                for n in range(3):  # time history length
+                    obs_history[0][a][:] = np.concatenate((obs_tminus_0[0][a][:], obs_tminus_1[0][a][:], obs_tminus_2[0][a][:]))
+                    # Now, temp has history of 3 timesteps for each agent
+
             # rearrange observations to be per agent, and convert to torch Variable
             torch_obs = [Variable(torch.Tensor(np.vstack(obs[:, i])),
                                   requires_grad=False)
@@ -107,6 +127,12 @@ def run(config):
             # for RNN, replay buffer needs to store for e.g., states=[obs_t-2, obs_t-1, obs_t]
             replay_buffer.push(obs, agent_actions, rewards, next_obs, dones)
             obs = next_obs
+
+            # Update histories
+            obs_tminus_2 = copy(obs_tminus_1)
+            obs_tminus_1 = copy(obs_tminus_0)
+            obs_tminus_0 = copy(next_obs)
+
             t += config.n_rollout_threads
             if (len(replay_buffer) >= config.batch_size and
                 (t % config.steps_per_update) < config.n_rollout_threads):

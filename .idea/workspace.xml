@@ -2,11 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5a48b268-f54a-4138-96ed-439c1b708dac" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/algorithms/maddpg.py" beforeDir="false" afterPath="$PROJECT_DIR$/algorithms/maddpg.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/history_buffer.py" beforeDir="false" afterPath="$PROJECT_DIR$/history_buffer.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/agents.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/agents.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/networks.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/networks.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -27,48 +24,50 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="py" value="26" />
+          <entry key="py" value="27" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="Python" value="26" />
+          <entry key="Python" value="27" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="Python Console" value="208" />
-          <entry key="py" value="5734" />
+          <entry key="Python Console" value="437" />
+          <entry key="py" value="7284" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Python" value="5942" />
+          <entry key="Python" value="7721" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="225">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="391">
-              <caret line="113" column="68" selection-start-line="113" selection-start-column="60" selection-end-line="113" selection-end-column="68" />
+            <state relative-caret-position="414">
+              <caret line="109" column="73" selection-start-line="109" selection-start-column="73" selection-end-line="109" selection-end-column="73" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
-                <marker date="1542004113140" expanded="true" signature="904:6115" ph="..." />
-                <marker date="1542004113140" expanded="false" signature="6137:6142" ph="..." />
+                <element signature="e#472#885#0" />
+                <element signature="e#1087#1402#0" />
+                <marker date="1542056912520" expanded="true" signature="926:7244" ph="..." />
+                <marker date="1542056912520" expanded="false" signature="7266:7271" ph="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/history_buffer.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="34">
-              <caret line="2" column="39" selection-start-line="2" selection-start-column="39" selection-end-line="2" selection-end-column="39" />
+            <state relative-caret-position="527">
+              <caret line="31" selection-start-line="31" selection-end-line="33" selection-end-column="38" />
             </state>
           </provider>
         </entry>
@@ -126,8 +125,8 @@
         <option value="$PROJECT_DIR$/utils/networks.py" />
         <option value="$PROJECT_DIR$/utils/agents.py" />
         <option value="$PROJECT_DIR$/algorithms/maddpg.py" />
-        <option value="$PROJECT_DIR$/main.py" />
         <option value="$PROJECT_DIR$/history_buffer.py" />
+        <option value="$PROJECT_DIR$/main.py" />
       </list>
     </option>
   </component>
@@ -183,7 +182,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.history_buffer">
+  <component name="RunManager" selected="Python.main">
     <configuration name="history_buffer" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="ProjectFromScratch" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -232,8 +231,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.history_buffer" />
         <item itemvalue="Python.main" />
+        <item itemvalue="Python.history_buffer" />
       </list>
     </recent_temporary>
   </component>
@@ -258,8 +257,8 @@
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Version Control" order="0" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Python Console" order="1" weight="0.260745" />
-      <window_info anchor="bottom" id="Terminal" order="2" weight="0.32808024" />
+      <window_info anchor="bottom" id="Python Console" order="1" weight="0.3008596" />
+      <window_info anchor="bottom" id="Terminal" order="2" weight="0.30229226" />
       <window_info anchor="bottom" id="Event Log" order="3" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="4" />
       <window_info anchor="bottom" id="Find" order="5" weight="0.27699018" />
@@ -269,8 +268,8 @@
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="right" id="Debug" order="3" weight="0.37803856" />
-      <window_info anchor="right" id="Run" order="4" weight="0.53227633" />
+      <window_info anchor="right" id="Debug" order="3" weight="0.44761106" />
+      <window_info anchor="right" id="Run" order="4" weight="0.526404" />
     </layout>
     <layout-to-restore>
       <window_info id="Favorites" order="0" side_tool="true" />
@@ -312,56 +311,53 @@
   <component name="debuggerHistoryManager">
     <expressions id="evaluateCodeFragment">
       <expression>
-        <expression-string>print(&quot;\n\n\n\n\n\n&quot;)
-print(np.append(state_w_history[0][0][0],state_w_history[0][0][0]))</expression-string>
+        <expression-string>temp[0][a][:] = np.concatenate((obs_tminus_0[0][a][:], obs_tminus_0[0][a][:], obs_tminus_0[0][a][:]))</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>print(&quot;\n\n\n\n\n\n&quot;)
-print(np.append(state_w_history[0][0],state_w_history[0][0]))</expression-string>
+        <expression-string>v = obs[0]</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>print(&quot;\n\n\n\n\n\n&quot;)
-print(state_w_history[0][0][0] + state_w_history[0][0][0])</expression-string>
+        <expression-string>v = obs[0][0]</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>print(&quot;\n\n\n\n\n\n&quot;)
-print(state_w_history[0][0] + state_w_history[0][0])</expression-string>
+        <expression-string>v = []</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>print(&quot;\n\n\n\n\n\n&quot;)
-print(state_w_history[0] + state_w_history[0])</expression-string>
+        <expression-string>v = obs[0][0][:]</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>print(&quot;\n\n\n\n\n\n&quot;)
-print(state_w_history[0])</expression-string>
+        <expression-string>#temp[0][0][:] = np.concatenate((obs_tminus_0[0][a][n], obs_tminus_0[0][a][n], obs_tminus_0[0][a][n]))</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>print(&quot;\n\n\n\n\n\n&quot;)
-print(state_w_history[0][0])</expression-string>
+        <expression-string>#temp[0][0][:] = np.concatenate((obs_tminus_0[0][a][n], obs_tminus_0[0][a][n], obs_tminus_0[0][a][n]))
+
+v</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>print(&quot;\n\n\n\n\n\n&quot;)
-print(state_w_history[1][0])</expression-string>
+        <expression-string>#temp[0][0][:] = np.concatenate((obs_tminus_0[0][a][n], obs_tminus_0[0][a][n], obs_tminus_0[0][a][n]))
+
+v = obs_tminus_0[0][0]</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>print(&quot;\n\n\n\n\n\n&quot;)
-print(state_w_history[0][1])</expression-string>
+        <expression-string>#temp[0][0][:] = np.concatenate((obs_tminus_0[0][a][n], obs_tminus_0[0][a][n], obs_tminus_0[0][a][n]))
+
+obs_tminus_0[0][0]</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
       </expression>
@@ -533,22 +529,31 @@ print(state_w_history[0][1])</expression-string>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main.py">
+    <entry file="file://$PROJECT_DIR$/history_buffer.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="113" column="68" selection-start-line="113" selection-start-column="60" selection-end-line="113" selection-end-column="68" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-            <marker date="1542004113140" expanded="true" signature="904:6115" ph="..." />
-            <marker date="1542004113140" expanded="false" signature="6137:6142" ph="..." />
-          </folding>
+        <state relative-caret-position="527">
+          <caret line="31" selection-start-line="31" selection-end-line="33" selection-end-column="38" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/history_buffer.py">
+    <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/_pydevd_bundle/pydevd_frame.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="39" selection-start-line="2" selection-start-column="39" selection-end-line="2" selection-end-column="39" />
+        <state relative-caret-position="1245">
+          <caret line="743" selection-start-line="743" selection-end-line="743" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="414">
+          <caret line="109" column="73" selection-start-line="109" selection-start-column="73" selection-end-line="109" selection-end-column="73" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+            <element signature="e#472#885#0" />
+            <element signature="e#1087#1402#0" />
+            <marker date="1542056912520" expanded="true" signature="926:7244" ph="..." />
+            <marker date="1542056912520" expanded="false" signature="7266:7271" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
