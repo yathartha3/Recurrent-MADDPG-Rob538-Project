@@ -33,12 +33,14 @@ class DDPGAgent(object):
             self.policy = RNNNetwork(num_in_pol, num_out_pol,
                                      hidden_dim=hidden_dim,
                                      constrain_out=True,
-                                     discrete_action=discrete_action)
+                                     discrete_action=discrete_action,
+                                     )
             self.target_policy = RNNNetwork(num_in_pol, num_out_pol,
                                             hidden_dim=hidden_dim,
                                             constrain_out=True,
-                                            discrete_action=discrete_action)
-            self.hidden_state = self.policy.initHidden()
+                                            discrete_action=discrete_action,
+                                            )
+            #self.hidden_state = self.policy.initHidden()
             print("\nRNN actor policy\n")
 
         self.critic = MLPNetwork(num_in_critic, 1,
@@ -79,12 +81,8 @@ class DDPGAgent(object):
 
         if not self.isRNN:
             action = self.policy(obs)
-            hidden = None
         else:
-            hidden = self.hidden_state
-            action, hidden = self.policy(obs, hidden)
-            self.hidden_state = hidden
-            # I know this is redundant
+            action = self.policy(obs)
 
         if self.discrete_action:
             if explore:

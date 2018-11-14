@@ -117,14 +117,22 @@ def run(config):
                     obs_history[0][a][:] = np.concatenate((obs_tminus_0[0][a][:], obs_tminus_1[0][a][:], obs_tminus_2[0][a][:]))
                     # Now, temp has history of 3 timesteps for each agent
 
-            # rearrange observations to be per agent, and convert to torch Variable
-            torch_obs = [Variable(torch.Tensor(np.vstack(obs[:, i])),
-                                  requires_grad=False)
-                         for i in range(maddpg.nagents)]
+            if not rnn:
+                # rearrange observations to be per agent, and convert to torch Variable
+                torch_obs = [Variable(torch.Tensor(np.vstack(obs[:, i])),
+                                      requires_grad=False)
+                             for i in range(maddpg.nagents)]
 
-            # get actions (from learning algorithm) as torch Variables. For simple_spread this is discrete[5]
-            # TODO: for RNN, actions should condition on history
-            torch_agent_actions = maddpg.step(torch_obs, explore=True)
+                # get actions (from learning algorithm) as torch Variables. For simple_spread this is discrete[5]
+                torch_agent_actions = maddpg.step(torch_obs, explore=True)
+
+            else:    # TODO: for RNN, actions should condition on history
+                # rearrange histories to be per agent, and convert to torch Variable
+                rnn_torch_obs = [Variable(torch.Tensor(np.vstack(obs_history[:, i])),
+                                      requires_grad=False)
+                             for i in range(maddpg.nagents)]
+                torch_agent_actions = maddpg.step(rnn_torch_obs, explore=True)
+
 
             # convert actions to numpy arrays
             agent_actions = [ac.data.numpy() for ac in torch_agent_actions]    # print(torch_agent_actions[0].data)
@@ -132,7 +140,7 @@ def run(config):
             actions = [[ac[i] for ac in agent_actions] for i in range(config.n_rollout_threads)]
             next_obs, rewards, dones, infos = env.step(actions)
 
-            # TODO: Create history for next state
+            # Create history for next state
             for a in range(3):      # env.nagents
                 for n in range(3):  # time history length
                     next_obs_history[0][a][:] = np.concatenate((next_obs[0][a][:], obs_tminus_0[0][a][:], obs_tminus_1[0][a][:]))
@@ -239,7 +247,10 @@ if __name__=="__main__":
     TODO:
     * (done) add history_buffer (concatenated observations) to replay buffer
     * (done) create next_obs_history to store next state in replay buffer
-    * actions should be based on history_buffer
-    * retrieve this and make it work with RNN model 
+    * (done) call actions based on history_buffer
+    * Change RNN implementation to work with history_buffer
+    * remove for n in range() while populating histories
+    * modify RNN network to internally use history
+    * make RNN update work
     
     """
