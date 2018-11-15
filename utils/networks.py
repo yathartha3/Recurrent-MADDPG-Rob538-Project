@@ -60,7 +60,7 @@ class RNNNetwork(nn.Module):
 
         self.hidden_dim = hidden_dim
         if norm_in:  # normalize inputs
-            self.in_fn = nn.BatchNorm1d(input_dim)
+            self.in_fn = nn.BatchNorm1d(input_dim + hidden_dim)
             self.in_fn.weight.data.fill_(1)
             self.in_fn.bias.data.fill_(0)
         else:
@@ -81,20 +81,20 @@ class RNNNetwork(nn.Module):
 
     def forward(self, X):
         # Preprocess X into obs for t, t-1 and t-2
-        hist_tminus_0 = torch.tensor(np.zeros((1,18)), dtype=torch.float)
-        hist_tminus_1 = torch.tensor(np.zeros((1,18)), dtype=torch.float)
-        hist_tminus_2 = torch.tensor(np.zeros((1,18)), dtype=torch.float)
+        # modifications for batch
+        hist_tminus_0 = torch.tensor(np.zeros((X.shape[0], 18)), dtype=torch.float)
+        hist_tminus_1 = torch.tensor(np.zeros((X.shape[0], 18)), dtype=torch.float)
+        hist_tminus_2 = torch.tensor(np.zeros((X.shape[0], 18)), dtype=torch.float)
 
-        hist_tminus_0[0] = X[0][0:18]
-        hist_tminus_1[0] = X[0][18:36]
-        hist_tminus_2[0] = X[0][36:54]
+        #TODO: Make sure this is fixed !!!!!!!!!!!!!!!!!!!
+        for n in range(X.shape[0]):
+            hist_tminus_0[n] = X[n][0:18]
+            hist_tminus_1[n] = X[n][18:36]
+            hist_tminus_2[n] = X[n][36:54]
 
-        init_memory = torch.tensor(np.zeros((1,self.hidden_dim)), dtype=torch.float)
-        # init_memory = np.zeros(self.hidden_dim)
-        # init_memory = torch.tensor(init_memory, dtype=torch.float)
+        init_memory = torch.tensor(np.zeros((X.shape[0],self.hidden_dim)), dtype=torch.float)
 
-        # X = torch.cat([hist_tminus_2.unsqueeze(-1), init_memory], 1)
-        X = torch.cat((hist_tminus_2, init_memory), 1)  # this seemed to be working when I was at apt
+        X = torch.cat((hist_tminus_2, init_memory), 1)
         X = self.fc1(X)
         X = torch.cat((hist_tminus_1, X), 1)
         X = self.i2h(X)
@@ -102,15 +102,6 @@ class RNNNetwork(nn.Module):
         X = self.i2o(X)
         X = self.out_fn(X)
         return X
-
-        # X = self.fc1(X)
-        # combined = torch.cat((X, hidden), 1)
-        # # update the hidden states
-        # hidden = self.i2h(combined)
-        # # get output
-        # output = self.i2o(combined)
-        # output = self.out_fn(output)
-        # return output, hidden
 
     def initHidden(self):
         return torch.zeros(1, self.hidden_size)

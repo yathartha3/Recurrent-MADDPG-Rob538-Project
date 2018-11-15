@@ -126,11 +126,12 @@ def run(config):
                 # get actions (from learning algorithm) as torch Variables. For simple_spread this is discrete[5]
                 torch_agent_actions = maddpg.step(torch_obs, explore=True)
 
-            else:    # TODO: for RNN, actions should condition on history
+            else:
                 # rearrange histories to be per agent, and convert to torch Variable
                 rnn_torch_obs = [Variable(torch.Tensor(np.vstack(obs_history[:, i])),
                                       requires_grad=False)
                              for i in range(maddpg.nagents)]
+                # TODO: for RNN, actions should condition on history (DONE)
                 torch_agent_actions = maddpg.step(rnn_torch_obs, explore=True)
 
 
@@ -141,9 +142,12 @@ def run(config):
             next_obs, rewards, dones, infos = env.step(actions)
 
             # Create history for next state
+            '''
+            history is [t, t-1, t-2]
+            history[0] is because [0] is for one thread
+            '''
             for a in range(3):      # env.nagents
-                for n in range(3):  # time history length
-                    next_obs_history[0][a][:] = np.concatenate((next_obs[0][a][:], obs_tminus_0[0][a][:], obs_tminus_1[0][a][:]))
+                next_obs_history[0][a][:] = np.concatenate((next_obs[0][a][:], obs_tminus_0[0][a][:], obs_tminus_1[0][a][:]))
                     # Now, next_obs_history has history of 3 timesteps for each agent the next state
 
             # for RNN, replay buffer needs to store for e.g., states=[obs_t-2, obs_t-1, obs_t]
@@ -159,7 +163,7 @@ def run(config):
             obs_tminus_0 = copy(next_obs)
 
             t += config.n_rollout_threads
-            if (len(replay_buffer) >= config.batch_size and
+            if (len(rnn_replay_buffer) >= config.batch_size and
                 (t % config.steps_per_update) < config.n_rollout_threads):
                 if USE_CUDA:
                     maddpg.prep_training(device='gpu')
@@ -167,12 +171,12 @@ def run(config):
                     maddpg.prep_training(device='cpu')
                 for u_i in range(config.n_rollout_threads):
                     for a_i in range(maddpg.nagents):
-                        sample = replay_buffer.sample(config.batch_size,
+                        sample = rnn_replay_buffer.sample(config.batch_size,
                                                       to_gpu=USE_CUDA)
                         maddpg.update(sample, a_i, logger=logger)
                     maddpg.update_all_targets()
                 maddpg.prep_rollouts(device='cpu')
-        ep_rews = replay_buffer.get_average_rewards(
+        ep_rews = rnn_replay_buffer.get_average_rewards(
             config.episode_length * config.n_rollout_threads)
         for a_i, a_ep_rew in enumerate(ep_rews):
             logger.add_scalar('agent%i/mean_episode_rewards' % a_i, a_ep_rew, ep_i)
@@ -252,5 +256,9 @@ if __name__=="__main__":
     * remove for n in range() while populating histories
     * modify RNN network to internally use history
     * make RNN update work
+    * while checking len(replay_buffer), make it so that switch is done automatically
+    
+    Current errors:
+    maddpg.py: line 107
     
     """

@@ -4,6 +4,7 @@ from gym.spaces import Box, Discrete
 from utils.networks import MLPNetwork
 from utils.misc import soft_update, average_gradients, onehot_from_logits, gumbel_softmax
 from utils.agents import DDPGAgent
+import numpy as np
 
 MSELoss = torch.nn.MSELoss()
 
@@ -93,18 +94,47 @@ class MADDPG(object):
             logger (SummaryWriter from Tensorboard-Pytorch):
                 If passed in, important quantities will be logged
         """
+        # For RNN, the obs and next_obs both have histories
         obs, acs, rews, next_obs, dones = sample
         curr_agent = self.agents[agent_i]
 
         curr_agent.critic_optimizer.zero_grad()
         if self.alg_types[agent_i] == 'MADDPG':
             if self.discrete_action: # one-hot encode action
-                all_trgt_acs = [onehot_from_logits(pi(nobs)) for pi, nobs in
-                                zip(self.target_policies, next_obs)]
+
+                # This is original one, 'pi': policy, 'nobs' n_observations
+                #all_trgt_acs = [onehot_from_logits(pi(nobs)) for pi, nobs in
+                #                zip(self.target_policies, next_obs)]
+
+                # Original till here
+
+                #-------- Expanding out for debugging --------#
+                all_trgt_acs = []
+                for pi, nobs in zip(self.target_policies, next_obs):
+                    temp = onehot_from_logits(pi(nobs))
+                    print(temp)
+                    all_trgt_acs.append(temp)
+                # -------- End debug -------------------------#
+
             else:
                 all_trgt_acs = [pi(nobs) for pi, nobs in zip(self.target_policies,
                                                              next_obs)]
-            trgt_vf_in = torch.cat((*next_obs, *all_trgt_acs), dim=1)
+
+            # TODO: Get the most current observation from the history to calculate the target value
+            t0_next_obs = [[],[],[]]
+            for a in range(self.nagents):
+                t0_next_obs[a] = torch.tensor(np.zeros((next_obs[0].shape[0], 18)), dtype=torch.float)
+            # the next_obs[0].shape[0] gives the batch size
+            # TODO: change it to be a parameter
+            # Only keep the current obs for critic VF
+            for n in range(self.nagents):               # for each agents
+                for b in range(next_obs[0].shape[0]):   # for the number of batches
+                    t0_next_obs[n][b][:] = next_obs[n][b][0:18]
+
+            # TODO: ORIGINAL was \/
+            #trgt_vf_in = torch.cat((*next_obs, *all_trgt_acs), dim=1)
+            trgt_vf_in = torch.cat((*t0_next_obs, *all_trgt_acs), dim=1)
+            # It is working till here. Only kept the current obs for critic VF
         else:  # DDPG
             if self.discrete_action:
                 trgt_vf_in = torch.cat((next_obs[agent_i],
@@ -116,12 +146,23 @@ class MADDPG(object):
                 trgt_vf_in = torch.cat((next_obs[agent_i],
                                         curr_agent.target_policy(next_obs[agent_i])),
                                        dim=1)
+
         target_value = (rews[agent_i].view(-1, 1) + self.gamma *
                         curr_agent.target_critic(trgt_vf_in) *
                         (1 - dones[agent_i].view(-1, 1)))
 
+        ##### Just get the current observation ############
+        # Copied the same as in t0_next_obs, since BOTH obs and next_obs have HISTORIES.
+        t0_obs = [[], [], []]
+        for a in range(self.nagents):
+            t0_obs[a] = torch.tensor(np.zeros((obs[0].shape[0], 18)), dtype=torch.float)
+        for n in range(self.nagents):  # for each agents
+            for b in range(obs[0].shape[0]):  # for the number of batches
+                t0_obs[n][b][:] = obs[n][b][0:18]
+        ###################################################
+
         if self.alg_types[agent_i] == 'MADDPG':
-            vf_in = torch.cat((*obs, *acs), dim=1)
+            vf_in = torch.cat((*t0_obs, *acs), dim=1)
         else:  # DDPG
             vf_in = torch.cat((obs[agent_i], acs[agent_i]), dim=1)
         actual_value = curr_agent.critic(vf_in)
