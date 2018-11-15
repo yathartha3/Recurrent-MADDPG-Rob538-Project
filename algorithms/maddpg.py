@@ -151,7 +151,8 @@ class MADDPG(object):
                         curr_agent.target_critic(trgt_vf_in) *
                         (1 - dones[agent_i].view(-1, 1)))
 
-        ##### Just get the current observation ############
+        ##### Just get the current observation (i.e., without history) ##########
+        # Reason: Critic VF does not need history
         # Copied the same as in t0_next_obs, since BOTH obs and next_obs have HISTORIES.
         t0_obs = [[], [], []]
         for a in range(self.nagents):
@@ -163,7 +164,7 @@ class MADDPG(object):
 
         if self.alg_types[agent_i] == 'MADDPG':
             vf_in = torch.cat((*t0_obs, *acs), dim=1)
-        else:  # DDPG
+        else:  # DDPG  #TODO: below, might have to change obs to t0_obs, when using DDPG
             vf_in = torch.cat((obs[agent_i], acs[agent_i]), dim=1)
         actual_value = curr_agent.critic(vf_in)
         vf_loss = MSELoss(actual_value, target_value.detach())
@@ -181,8 +182,13 @@ class MADDPG(object):
             # through discrete categorical samples, but I'm not sure if that is
             # correct since it removes the assumption of a deterministic policy for
             # DDPG. Regardless, discrete policies don't seem to learn properly without it.
+
+            '''
+            Now, we are back to forwarding policy, so we need to use obs with history
+            '''
             curr_pol_out = curr_agent.policy(obs[agent_i])
             curr_pol_vf_in = gumbel_softmax(curr_pol_out, hard=True)
+            # Seems to be working fine till here
         else:
             curr_pol_out = curr_agent.policy(obs[agent_i])
             curr_pol_vf_in = curr_pol_out
@@ -195,10 +201,13 @@ class MADDPG(object):
                     all_pol_acs.append(onehot_from_logits(pi(ob)))
                 else:
                     all_pol_acs.append(pi(ob))
-            vf_in = torch.cat((*obs, *all_pol_acs), dim=1)
+            # Originally:
+            #vf_in = torch.cat((*obs, *all_pol_acs), dim=1)
+            vf_in = torch.cat((*t0_obs, *all_pol_acs), dim=1)
         else:  # DDPG
             vf_in = torch.cat((obs[agent_i], curr_pol_vf_in),
                               dim=1)
+        # TODO: FIX THIS
         pol_loss = -curr_agent.critic(vf_in).mean()
         pol_loss += (curr_pol_out**2).mean() * 1e-3
         pol_loss.backward()
