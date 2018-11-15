@@ -113,9 +113,9 @@ def run(config):
 
             # Populate current history
             for a in range(3):  # env.nagents
-                for n in range(3):  # time history length
-                    obs_history[0][a][:] = np.concatenate((obs_tminus_0[0][a][:], obs_tminus_1[0][a][:], obs_tminus_2[0][a][:]))
-                    # Now, temp has history of 3 timesteps for each agent
+                #for n in range(3):  # time history length
+                obs_history[0][a][:] = np.concatenate((obs_tminus_0[0][a][:], obs_tminus_1[0][a][:], obs_tminus_2[0][a][:]))
+                # Now, temp has history of 3 timesteps for each agent
 
             if not rnn:
                 # rearrange observations to be per agent, and convert to torch Variable
@@ -207,13 +207,13 @@ def parse_arguments():
     parser.add_argument("--n_rollout_threads", default=1, type=int)
     parser.add_argument("--n_training_threads", default=6, type=int)
     parser.add_argument("--buffer_length", default=int(1e6), type=int)
-    parser.add_argument("--n_episodes", default=1000, type=int)
+    parser.add_argument("--n_episodes", default=25000, type=int)
     parser.add_argument("--episode_length", default=25, type=int)
     parser.add_argument("--steps_per_update", default=100, type=int)
     parser.add_argument("--batch_size",
                         default=1024, type=int,
                         help="Batch size for model training")
-    parser.add_argument("--n_exploration_eps", default=25000, type=int)
+    parser.add_argument("--n_exploration_eps", default=20000, type=int)
     parser.add_argument("--init_noise_scale", default=0.3, type=float)
     parser.add_argument("--final_noise_scale", default=0.0, type=float)
     parser.add_argument("--save_interval", default=1000, type=int)

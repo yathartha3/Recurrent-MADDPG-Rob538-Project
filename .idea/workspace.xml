@@ -3,6 +3,12 @@
   <component name="ChangeListManager">
     <list default="true" id="5a48b268-f54a-4138-96ed-439c1b708dac" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/algorithms/maddpg.py" beforeDir="false" afterPath="$PROJECT_DIR$/algorithms/maddpg.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/evaluate.py" beforeDir="false" afterPath="$PROJECT_DIR$/evaluate.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/simple_spread/Exp/run1/logs/events.out.tfevents.1541898038.parallels-vm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/simple_spread/Exp/run2/logs/events.out.tfevents.1541902894.parallels-vm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/simple_spread/Exp/run3/logs/events.out.tfevents.1541905552.parallels-vm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/simple_spread/Exp/run4/logs/events.out.tfevents.1541912142.parallels-vm" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -24,24 +30,24 @@
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="md" value="1" />
-          <entry key="py" value="66" />
+          <entry key="py" value="67" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="Markdown" value="1" />
-          <entry key="Python" value="66" />
+          <entry key="Python" value="67" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="Python Console" value="437" />
-          <entry key="py" value="13998" />
+          <entry key="py" value="14373" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Python" value="14435" />
+          <entry key="Python" value="14810" />
         </counts>
       </usages-collector>
     </session>
@@ -51,15 +57,27 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="225">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="120">
-              <caret line="159" column="11" lean-forward="true" selection-start-line="159" selection-start-column="11" selection-end-line="159" selection-end-column="11" />
+            <state relative-caret-position="306">
+              <caret line="117" column="16" selection-start-line="117" selection-start-column="16" selection-end-line="117" selection-end-column="16" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
-                <marker date="1542246360354" expanded="true" signature="926:8853" ph="..." />
-                <marker date="1542246360354" expanded="false" signature="8875:8880" ph="..." />
+                <marker date="1542275828281" expanded="true" signature="926:8846" ph="..." />
+                <marker date="1542275828281" expanded="false" signature="8868:8873" ph="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/evaluate.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="303">
+              <caret line="59" selection-start-line="59" selection-end-line="59" />
+              <folding>
+                <element signature="e#0#15#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -68,7 +86,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/utils/agents.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="392">
+            <state relative-caret-position="663">
               <caret line="45" column="13" selection-start-line="45" selection-start-column="13" selection-end-line="45" selection-end-column="13" />
               <folding>
                 <element signature="e#0#24#0" expanded="true" />
@@ -77,11 +95,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/algorithms/maddpg.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="778">
-              <caret line="211" column="51" lean-forward="true" selection-start-line="211" selection-start-column="8" selection-end-line="211" selection-end-column="51" />
+            <state relative-caret-position="384">
+              <caret line="114" column="21" selection-start-line="114" selection-start-column="21" selection-end-line="114" selection-end-column="21" />
               <folding>
                 <element signature="e#0#12#0" expanded="true" />
               </folding>
@@ -92,8 +110,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/utils/networks.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="392">
-              <caret line="45" selection-start-line="45" selection-end-line="45" />
+            <state relative-caret-position="384">
+              <caret line="53" column="20" selection-start-line="53" selection-start-column="20" selection-end-line="53" selection-end-column="20" />
               <folding>
                 <element signature="e#0#21#0" expanded="true" />
                 <marker date="1542245976071" expanded="true" signature="1799:1804" ph="..." />
@@ -126,6 +144,7 @@
       <find>target_policies</find>
       <find>obs</find>
       <find>t0_next_obs</find>
+      <find>print</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -137,26 +156,76 @@
         <option value="$PROJECT_DIR$/Algorithms/maddpg.py" />
         <option value="$PROJECT_DIR$/history_buffer.py" />
         <option value="$PROJECT_DIR$/utils/agents.py" />
-        <option value="$PROJECT_DIR$/evaluate.py" />
         <option value="$PROJECT_DIR$/../../multiagent-particle-envs/multiagent/scenarios/simple_spread.py" />
         <option value="$PROJECT_DIR$/utils/networks.py" />
-        <option value="$PROJECT_DIR$/main.py" />
         <option value="$PROJECT_DIR$/algorithms/maddpg.py" />
+        <option value="$PROJECT_DIR$/evaluate.py" />
+        <option value="$PROJECT_DIR$/main.py" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="49" />
-    <option name="y" value="18" />
-    <option name="width" value="1356" />
-    <option name="height" value="1326" />
+    <option name="y" value="-3" />
+    <option name="width" value="1191" />
+    <option name="height" value="742" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
-    <panes />
+    <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="ProjectFromScratch" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ProjectFromScratch" type="47feb1d3:ProjectViewModuleNode" />
+            </path>
+            <path>
+              <item name="ProjectFromScratch" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ProjectFromScratch" type="47feb1d3:ProjectViewModuleNode" />
+              <item name="ProjectFromScratch" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ProjectFromScratch" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ProjectFromScratch" type="47feb1d3:ProjectViewModuleNode" />
+              <item name="ProjectFromScratch" type="462c0819:PsiDirectoryNode" />
+              <item name="models" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ProjectFromScratch" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ProjectFromScratch" type="47feb1d3:ProjectViewModuleNode" />
+              <item name="ProjectFromScratch" type="462c0819:PsiDirectoryNode" />
+              <item name="models" type="462c0819:PsiDirectoryNode" />
+              <item name="simple_spread" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ProjectFromScratch" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ProjectFromScratch" type="47feb1d3:ProjectViewModuleNode" />
+              <item name="ProjectFromScratch" type="462c0819:PsiDirectoryNode" />
+              <item name="models" type="462c0819:PsiDirectoryNode" />
+              <item name="simple_spread" type="462c0819:PsiDirectoryNode" />
+              <item name="Exp" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ProjectFromScratch" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ProjectFromScratch" type="47feb1d3:ProjectViewModuleNode" />
+              <item name="ProjectFromScratch" type="462c0819:PsiDirectoryNode" />
+              <item name="utils" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ProjectFromScratch" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ProjectFromScratch" type="47feb1d3:ProjectViewModuleNode" />
+              <item name="multiagent-particle-envs" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="Scope" />
+    </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../../multiagent-particle-envs" />
@@ -179,7 +248,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.main">
+  <component name="RunManager" selected="Python.evaluate">
     <configuration name="evaluate" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="ProjectFromScratch" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -294,9 +363,9 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.evaluate" />
         <item itemvalue="Python.main" />
         <item itemvalue="Python.module" />
-        <item itemvalue="Python.evaluate" />
         <item itemvalue="Python.networks" />
         <item itemvalue="Python.history_buffer" />
       </list>
@@ -325,14 +394,15 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="49" y="18" width="1356" height="1326" extended-state="0" />
+    <frame x="49" y="-3" width="1185" height="742" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" weight="0.16512993" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.16392021" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.24979044" />
       <window_info id="Favorites" order="2" side_tool="true" weight="0.32942164" />
       <window_info anchor="bottom" id="Version Control" order="0" show_stripe_button="false" />
       <window_info anchor="bottom" id="Python Console" order="1" weight="0.3008596" />
-      <window_info anchor="bottom" id="Terminal" order="2" weight="0.44985673" />
+      <window_info anchor="bottom" id="Terminal" order="2" weight="0.4489796" />
       <window_info anchor="bottom" id="Event Log" order="3" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="4" />
       <window_info anchor="bottom" id="Find" order="5" weight="0.27699018" />
@@ -342,8 +412,8 @@
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info active="true" anchor="right" id="Debug" order="3" visible="true" weight="0.40212443" />
-      <window_info anchor="right" id="Run" order="4" weight="0.5349014" />
+      <window_info anchor="right" id="Debug" order="3" weight="0.40191805" />
+      <window_info anchor="right" id="Run" order="4" weight="0.2728858" />
     </layout>
     <layout-to-restore>
       <window_info content_ui="combo" id="Project" order="0" weight="0.16512993" />
@@ -376,6 +446,11 @@
           <line>210</line>
           <option name="timeStamp" value="82" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/evaluate.py</url>
+          <line>59</line>
+          <option name="timeStamp" value="83" />
+        </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
@@ -392,6 +467,38 @@
   <component name="debuggerHistoryManager">
     <expressions id="evaluateCodeFragment">
       <expression>
+        <expression-string>obs_tminus_0[0][a]
+#np.concatenate((obs_tminus_0[0][a][:], obs_tminus_1[0][a][:], obs_tminus_2[0][a][:]))</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>obs_tminus_0[0][a][:]
+#np.concatenate((obs_tminus_0[0][a][:], obs_tminus_1[0][a][:], obs_tminus_2[0][a][:]))</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>np.concatenate((obs_tminus_0[0][a][:], obs_tminus_1[0][a][:], obs_tminus_2[0][a][:]))</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>obs_history[0][a][:]</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>obs_history[0][a][:] = np.concatenate((obs_tminus_0[0][a][:], obs_tminus_1[0][a][:], obs_tminus_2[0][a][:]))</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>pol_loss.backward()</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
+      </expression>
+      <expression>
         <expression-string>pol_loss += (curr_pol_out**2).mean() * 1e-3</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
@@ -403,41 +510,6 @@
       </expression>
       <expression>
         <expression-string>-curr_agent.critic(vf_in).mean()</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>-curr_agent.critic(vf_in)</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>vf_in.shape</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>vf_in = torch.cat((*t0_obs, *all_pol_acs), dim=1)</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>vf_in</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>curr_pol_out = curr_agent.policy(obs[agent_i])</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>curr_pol_out = curr_agent.policy(t0_obs[agent_i])</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>ac</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
       </expression>
@@ -558,16 +630,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/evaluate.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="425">
-          <caret line="28" lean-forward="true" selection-start-line="28" selection-end-line="28" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
@@ -621,31 +683,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/utils/networks.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="392">
-          <caret line="45" selection-start-line="45" selection-end-line="45" />
-          <folding>
-            <element signature="e#0#21#0" expanded="true" />
-            <marker date="1542245976071" expanded="true" signature="1799:1804" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file:///usr/local/lib/python3.6/dist-packages/torch/nn/modules/module.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="103">
           <caret line="459" column="28" lean-forward="true" selection-start-line="459" selection-start-column="28" selection-end-line="459" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/utils/agents.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="392">
-          <caret line="45" column="13" selection-start-line="45" selection-start-column="13" selection-end-line="45" selection-end-column="13" />
-          <folding>
-            <element signature="e#0#24#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -663,24 +704,55 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main.py">
+    <entry file="file://$PROJECT_DIR$/utils/agents.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="159" column="11" lean-forward="true" selection-start-line="159" selection-start-column="11" selection-end-line="159" selection-end-column="11" />
+        <state relative-caret-position="663">
+          <caret line="45" column="13" selection-start-line="45" selection-start-column="13" selection-end-line="45" selection-end-column="13" />
           <folding>
-            <element signature="e#0#15#0" expanded="true" />
-            <marker date="1542246360354" expanded="true" signature="926:8853" ph="..." />
-            <marker date="1542246360354" expanded="false" signature="8875:8880" ph="..." />
+            <element signature="e#0#24#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/utils/networks.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="384">
+          <caret line="53" column="20" selection-start-line="53" selection-start-column="20" selection-end-line="53" selection-end-column="20" />
+          <folding>
+            <element signature="e#0#21#0" expanded="true" />
+            <marker date="1542245976071" expanded="true" signature="1799:1804" ph="..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/algorithms/maddpg.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="778">
-          <caret line="211" column="51" lean-forward="true" selection-start-line="211" selection-start-column="8" selection-end-line="211" selection-end-column="51" />
+        <state relative-caret-position="384">
+          <caret line="114" column="21" selection-start-line="114" selection-start-column="21" selection-end-line="114" selection-end-column="21" />
           <folding>
             <element signature="e#0#12#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluate.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="303">
+          <caret line="59" selection-start-line="59" selection-end-line="59" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="117" column="16" selection-start-line="117" selection-start-column="16" selection-end-line="117" selection-end-column="16" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+            <marker date="1542275828281" expanded="true" signature="926:8846" ph="..." />
+            <marker date="1542275828281" expanded="false" signature="8868:8873" ph="..." />
           </folding>
         </state>
       </provider>

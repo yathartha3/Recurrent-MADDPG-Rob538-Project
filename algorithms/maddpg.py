@@ -112,7 +112,7 @@ class MADDPG(object):
                 all_trgt_acs = []
                 for pi, nobs in zip(self.target_policies, next_obs):
                     temp = onehot_from_logits(pi(nobs))
-                    print(temp)
+                    #print(temp)
                     all_trgt_acs.append(temp)
                 # -------- End debug -------------------------#
 
