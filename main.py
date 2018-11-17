@@ -91,12 +91,22 @@ def run(config):
         # E.g., For simple_spread, shape is {1,3,18}
         obs = env.reset()
 
-        # For RNN history buffer
+        # For RNN history buffer. I know this is not modular.
         obs_tminus_0 = copy(obs)
         obs_tminus_1 = copy(obs)
         obs_tminus_2 = copy(obs)
-        obs_history = np.empty([1,3,54])
-        next_obs_history = np.empty([1,3,54])
+
+        obs_tminus_3 = copy(obs)
+        obs_tminus_4 = copy(obs)
+        obs_tminus_5 = copy(obs)
+
+        # # for 3 time-steps
+        # obs_history = np.empty([1,3,54])
+        # next_obs_history = np.empty([1,3,54])
+
+        # For 6 time-steps (18*3 = 54)
+        obs_history = np.empty([1,3,108])
+        next_obs_history = np.empty([1,3,108])
 
         maddpg.prep_rollouts(device='cpu')
 
@@ -113,9 +123,9 @@ def run(config):
 
             # Populate current history
             for a in range(3):  # env.nagents
-                #for n in range(3):  # time history length
-                obs_history[0][a][:] = np.concatenate((obs_tminus_0[0][a][:], obs_tminus_1[0][a][:], obs_tminus_2[0][a][:]))
-                # Now, temp has history of 3 timesteps for each agent
+                obs_history[0][a][:] = np.concatenate((obs_tminus_0[0][a][:], obs_tminus_1[0][a][:], obs_tminus_2[0][a][:],
+                                                      obs_tminus_3[0][a][:], obs_tminus_4[0][a][:], obs_tminus_5[0][a][:]))
+                # Now, temp has history of 6 timesteps for each agent
 
             if not rnn:
                 # rearrange observations to be per agent, and convert to torch Variable
@@ -147,8 +157,9 @@ def run(config):
             history[0] is because [0] is for one thread
             '''
             for a in range(3):      # env.nagents
-                next_obs_history[0][a][:] = np.concatenate((next_obs[0][a][:], obs_tminus_0[0][a][:], obs_tminus_1[0][a][:]))
-                    # Now, next_obs_history has history of 3 timesteps for each agent the next state
+                next_obs_history[0][a][:] = np.concatenate((next_obs[0][a][:], obs_tminus_0[0][a][:], obs_tminus_1[0][a][:],
+                                                            obs_tminus_2[0][a][:], obs_tminus_3[0][a][:], obs_tminus_4[0][a][:]))
+                    # Now, next_obs_history has history of 6 timesteps for each agent the next state
 
             # for RNN, replay buffer needs to store for e.g., states=[obs_t-2, obs_t-1, obs_t]
             if not rnn:
@@ -158,6 +169,10 @@ def run(config):
                 rnn_replay_buffer.push(obs_history, agent_actions, rewards, next_obs_history, dones)
 
             # Update histories
+            obs_tminus_5 = copy(obs_tminus_4)
+            obs_tminus_4 = copy(obs_tminus_3)
+            obs_tminus_3 = copy(obs_tminus_2)
+
             obs_tminus_2 = copy(obs_tminus_1)
             obs_tminus_1 = copy(obs_tminus_0)
             obs_tminus_0 = copy(next_obs)
@@ -207,13 +222,13 @@ def parse_arguments():
     parser.add_argument("--n_rollout_threads", default=1, type=int)
     parser.add_argument("--n_training_threads", default=6, type=int)
     parser.add_argument("--buffer_length", default=int(1e6), type=int)
-    parser.add_argument("--n_episodes", default=25000, type=int)
+    parser.add_argument("--n_episodes", default=10000, type=int)
     parser.add_argument("--episode_length", default=25, type=int)
     parser.add_argument("--steps_per_update", default=100, type=int)
     parser.add_argument("--batch_size",
                         default=1024, type=int,
                         help="Batch size for model training")
-    parser.add_argument("--n_exploration_eps", default=20000, type=int)
+    parser.add_argument("--n_exploration_eps", default=8000, type=int)
     parser.add_argument("--init_noise_scale", default=0.3, type=float)
     parser.add_argument("--final_noise_scale", default=0.0, type=float)
     parser.add_argument("--save_interval", default=1000, type=int)
@@ -242,7 +257,7 @@ if __name__=="__main__":
     config = parser.parse_args()
     rnn = True    # also need to set this inside MADDPG class. Make args later.
     if rnn:
-        history_steps = 3
+        history_steps = 6
 
     run(config)
     print("Done")

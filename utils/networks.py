@@ -66,10 +66,13 @@ class RNNNetwork(nn.Module):
         else:
             self.in_fn = lambda x: x
 
-        self.fc1 = nn.Linear(input_dim + hidden_dim, hidden_dim)
-        # input to hidden unit
-        self.i2h = nn.Linear(input_dim + hidden_dim, hidden_dim)
-        self.i2o = nn.Linear(input_dim + hidden_dim, out_dim)
+        # The RNN has two fc hidden layers
+        # Input to hidden unit 1
+        self.i2h1 = nn.Linear(input_dim + hidden_dim, hidden_dim)
+        # input to hidden unit 2
+        # self.i2h2 = nn.Linear(input_dim + hidden_dim, hidden_dim)
+        self.i2h2 = nn.Linear(hidden_dim, hidden_dim)
+        self.h2o = nn.Linear(input_dim + hidden_dim, out_dim)
         self.nonlin = nonlin
 
         if constrain_out and not discrete_action:
@@ -80,27 +83,37 @@ class RNNNetwork(nn.Module):
             self.out_fn = lambda x: x
 
     def forward(self, X):
-        # Preprocess X into obs for t, t-1 and t-2
+        # Preprocess X into obs for t, t-1, t-2 . . . t-n
         # modifications for batch
         hist_tminus_0 = torch.tensor(np.zeros((X.shape[0], 18)), dtype=torch.float)
         hist_tminus_1 = torch.tensor(np.zeros((X.shape[0], 18)), dtype=torch.float)
         hist_tminus_2 = torch.tensor(np.zeros((X.shape[0], 18)), dtype=torch.float)
+        hist_tminus_3 = torch.tensor(np.zeros((X.shape[0], 18)), dtype=torch.float)
+        hist_tminus_4 = torch.tensor(np.zeros((X.shape[0], 18)), dtype=torch.float)
+        hist_tminus_5 = torch.tensor(np.zeros((X.shape[0], 18)), dtype=torch.float)
 
-        #TODO: Make sure this is fixed !!!!!!!!!!!!!!!!!!!
         for n in range(X.shape[0]):
             hist_tminus_0[n] = X[n][0:18]
             hist_tminus_1[n] = X[n][18:36]
             hist_tminus_2[n] = X[n][36:54]
+            hist_tminus_3[n] = X[n][54:72]
+            hist_tminus_4[n] = X[n][72:90]
+            hist_tminus_5[n] = X[n][90:108]
 
         init_memory = torch.tensor(np.zeros((X.shape[0],self.hidden_dim)), dtype=torch.float)
 
-        X = torch.cat((hist_tminus_2, init_memory), 1)
-        X = self.fc1(X)
+        X = torch.cat((hist_tminus_5, init_memory), 1)      # oldest history and intialization
+        X = self.i2h2(self.i2h1(X))                         # Now, X is of shape hidden_dim
+        X = torch.cat((hist_tminus_4, X), 1)
+        X = self.i2h2(self.i2h1(X))
+        X = torch.cat((hist_tminus_3, X), 1)
+        X = self.i2h2(self.i2h1(X))
+        X = torch.cat((hist_tminus_2, X), 1)
+        X = self.i2h2(self.i2h1(X))
         X = torch.cat((hist_tminus_1, X), 1)
-        X = self.i2h(X)
+        X = self.i2h2(self.i2h1(X))
         X = torch.cat((hist_tminus_0, X), 1)
-        X = self.i2o(X)
-        X = self.out_fn(X)
+        X = self.h2o(X)
         return X
 
     def initHidden(self):
