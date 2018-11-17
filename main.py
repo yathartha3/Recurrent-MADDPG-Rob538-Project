@@ -12,6 +12,8 @@ from utils.buffer import ReplayBuffer
 from utils.env_wrappers import SubprocVecEnv, DummyVecEnv
 from algorithms.maddpg import MADDPG
 from copy import copy
+import itertools
+
 
 USE_CUDA = False
 
@@ -30,6 +32,9 @@ def make_parallel_env(env_id, n_rollout_threads, seed, discrete_action):
 
 
 def run(config):
+    ##########################################################################
+    #                            BOOK-KEEPING                                #
+    ##########################################################################
     # Make directory to store the results
     model_dir = Path('./models')/config.env_id/config.model_name
     if not model_dir.exists():
@@ -49,11 +54,13 @@ def run(config):
     # initialize tensorboard summary writer
     logger = SummaryWriter(str(log_dir))
 
+    ##########################################################################
+    #            INITIALIZE ENVIRONMENT, AGENT, AND REPLAY BUFFER            #
+    ##########################################################################
     # use provided seed
     torch.manual_seed(config.seed)
     np.random.seed(config.seed)
 
-    # IDK how helpful this is
     if not USE_CUDA:
         torch.set_num_threads(config.n_training_threads)
 
@@ -72,9 +79,9 @@ def run(config):
                                      [acsp.shape[0] if isinstance(acsp, Box) else acsp.n
                                       for acsp in env.action_space])
     else:
-        # replay buffer obs space size is increased
+        # replay buffer obs space size is increased for storing histories
         rnn_replay_buffer = ReplayBuffer(config.buffer_length, maddpg.nagents,
-                                     [obsp.shape[0]*history_steps for obsp in env.observation_space],
+                                     [obsp.shape[0]*config.rnn_t_hist for obsp in env.observation_space],
                                      [acsp.shape[0] if isinstance(acsp, Box) else acsp.n
                                       for acsp in env.action_space])
 
@@ -88,15 +95,29 @@ def run(config):
                                         config.n_episodes))
 
         # List of Observations for each of the agents
-        # E.g., For simple_spread, shape is {1,3,18}
+        # E.g., For simple_spread, original shape is {1,3,18}
         obs = env.reset()
 
-        # For RNN history buffer
-        obs_tminus_0 = copy(obs)
-        obs_tminus_1 = copy(obs)
-        obs_tminus_2 = copy(obs)
-        obs_history = np.empty([1,3,54])
-        next_obs_history = np.empty([1,3,54])
+        # Initialize a RNN history buffer based on config.rnn_t_hist
+        rnn_hist_buffer = []
+        for h in range(config.rnn_t_hist):
+            rnn_hist_buffer.append(copy(obs))
+
+        # obs_tminus_0 = copy(obs)
+        # obs_tminus_1 = copy(obs)
+        # obs_tminus_2 = copy(obs)
+        # # TODO: change this dynamically; do that same for concatenate
+        # obs_tminus_3 = copy(obs)
+        # obs_tminus_4 = copy(obs)
+        # obs_tminus_5 = copy(obs)
+
+        '''
+        obs_history = np.empty([1,3,54]) # 3 is agents, 54 is 18*3 for obs of 3 time-steps
+        '''
+        obs_history = np.empty([1, maddpg.nagents,
+                                env.observation_space[0].shape[0]*config.rnn_t_hist])
+        next_obs_history = np.empty([1, maddpg.nagents,
+                                env.observation_space[0].shape[0]*config.rnn_t_hist])
 
         maddpg.prep_rollouts(device='cpu')
 
@@ -111,11 +132,14 @@ def run(config):
 
         for et_i in range(config.episode_length):
 
+            obs_history = []
             # Populate current history
-            for a in range(3):  # env.nagents
-                #for n in range(3):  # time history length
-                obs_history[0][a][:] = np.concatenate((obs_tminus_0[0][a][:], obs_tminus_1[0][a][:], obs_tminus_2[0][a][:]))
-                # Now, temp has history of 3 timesteps for each agent
+            for a in range(maddpg.nagents):  # env.nagents
+                #obs_history[0][a][:] = np.concatenate((obs_tminus_0[0][a][:], obs_tminus_1[0][a][:], obs_tminus_2[0][a][:]))
+                temp = [np.array(rnn_hist_buffer[t][0][a][:]) for t in range(config.rnn_t_hist)]
+                temp = list(itertools.chain.from_iterable(temp))
+                obs_history.append(temp)
+            obs_history = np.array([obs_history])
 
             if not rnn:
                 # rearrange observations to be per agent, and convert to torch Variable
@@ -146,8 +170,10 @@ def run(config):
             history is [t, t-1, t-2]
             history[0] is because [0] is for one thread
             '''
-            for a in range(3):      # env.nagents
-                next_obs_history[0][a][:] = np.concatenate((next_obs[0][a][:], obs_tminus_0[0][a][:], obs_tminus_1[0][a][:]))
+            for a in range(maddpg.nagents):      # env.nagents
+                next_obs_history[0][a][:] = np.concatenate((next_obs[0][a][:], obs_tminus_0[0][a][:], obs_tminus_1[0][a][:],
+                                                            obs_tminus_2[0][a][:], obs_tminus_3[0][a][:],
+                                                            obs_tminus_4[0][a][:]))
                     # Now, next_obs_history has history of 3 timesteps for each agent the next state
 
             # for RNN, replay buffer needs to store for e.g., states=[obs_t-2, obs_t-1, obs_t]
@@ -158,6 +184,9 @@ def run(config):
                 rnn_replay_buffer.push(obs_history, agent_actions, rewards, next_obs_history, dones)
 
             # Update histories
+            obs_tminus_5 = copy(obs_tminus_4)
+            obs_tminus_4 = copy(obs_tminus_3)
+            obs_tminus_3 = copy(obs_tminus_2)
             obs_tminus_2 = copy(obs_tminus_1)
             obs_tminus_1 = copy(obs_tminus_0)
             obs_tminus_0 = copy(next_obs)
@@ -228,7 +257,7 @@ def parse_arguments():
                         choices=['MADDPG', 'DDPG'])
     parser.add_argument("--discrete_action",
                         action='store_true')
-
+    parser.add_argument("--rnn_t_hist", default=6)
 
 
 if __name__=="__main__":
@@ -241,24 +270,14 @@ if __name__=="__main__":
     parse_arguments()
     config = parser.parse_args()
     rnn = True    # also need to set this inside MADDPG class. Make args later.
-    if rnn:
-        history_steps = 3
 
     run(config)
     print("Done")
 
     """
     TODO:
-    * (done) add history_buffer (concatenated observations) to replay buffer
-    * (done) create next_obs_history to store next state in replay buffer
-    * (done) call actions based on history_buffer
-    * Change RNN implementation to work with history_buffer
-    * remove for n in range() while populating histories
-    * modify RNN network to internally use history
-    * make RNN update work
-    * while checking len(replay_buffer), make it so that switch is done automatically
+    * Make RNN history time-steps a parameter
     
-    Current errors:
-    maddpg.py: line 107
-    
+    NOTE:
+    * currently this code has not tested switching w/wo RNN. It is being modified to use with RNN.
     """

@@ -80,17 +80,25 @@ class RNNNetwork(nn.Module):
             self.out_fn = lambda x: x
 
     def forward(self, X):
-        # Preprocess X into obs for t, t-1 and t-2
+        # Preprocess X into obs for t, t-1, t-2 ... t-n
         # modifications for batch
+
+        # *****************MAKE IT MODULAR****************#
         hist_tminus_0 = torch.tensor(np.zeros((X.shape[0], 18)), dtype=torch.float)
         hist_tminus_1 = torch.tensor(np.zeros((X.shape[0], 18)), dtype=torch.float)
         hist_tminus_2 = torch.tensor(np.zeros((X.shape[0], 18)), dtype=torch.float)
+        hist_tminus_3 = torch.tensor(np.zeros((X.shape[0], 18)), dtype=torch.float)
+        hist_tminus_4 = torch.tensor(np.zeros((X.shape[0], 18)), dtype=torch.float)
+        hist_tminus_5 = torch.tensor(np.zeros((X.shape[0], 18)), dtype=torch.float)
 
-        #TODO: Make sure this is fixed !!!!!!!!!!!!!!!!!!!
         for n in range(X.shape[0]):
             hist_tminus_0[n] = X[n][0:18]
             hist_tminus_1[n] = X[n][18:36]
             hist_tminus_2[n] = X[n][36:54]
+            hist_tminus_3[n] = X[n][54:72]
+            hist_tminus_4[n] = X[n][72:90]
+            hist_tminus_5[n] = X[n][90:108]
+        #*************************************************#
 
         init_memory = torch.tensor(np.zeros((X.shape[0],self.hidden_dim)), dtype=torch.float)
 
@@ -105,4 +113,3 @@ class RNNNetwork(nn.Module):
 
     def initHidden(self):
         return torch.zeros(1, self.hidden_size)
-
