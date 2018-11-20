@@ -100,7 +100,7 @@ class MADDPG(object):
 
         curr_agent.critic_optimizer.zero_grad()
         if self.alg_types[agent_i] == 'MADDPG':
-            if self.discrete_action: # one-hot encode action
+            if self.discrete_action:  # one-hot encode action
 
                 # This is original one, 'pi': policy, 'nobs' n_observations
                 #all_trgt_acs = [onehot_from_logits(pi(nobs)) for pi, nobs in
@@ -120,7 +120,7 @@ class MADDPG(object):
                 all_trgt_acs = [pi(nobs) for pi, nobs in zip(self.target_policies,
                                                              next_obs)]
 
-            # TODO: Get the most current observation from the history to calculate the target value
+            # Get the most current observation from the history to calculate the target value
             t0_next_obs = [[],[],[]]
             for a in range(self.nagents):
                 t0_next_obs[a] = torch.tensor(np.zeros((next_obs[0].shape[0], 18)), dtype=torch.float)
@@ -131,13 +131,24 @@ class MADDPG(object):
                 for b in range(next_obs[0].shape[0]):   # for the number of batches
                     t0_next_obs[n][b][:] = next_obs[n][b][0:18]
 
-            # TODO: ORIGINAL was \/
+            # ORIGINAL was \/
             #trgt_vf_in = torch.cat((*next_obs, *all_trgt_acs), dim=1)
             trgt_vf_in = torch.cat((*t0_next_obs, *all_trgt_acs), dim=1)
             # It is working till here. Only kept the current obs for critic VF
         else:  # DDPG
+            # DDPG only knows the particular agent's observation and policy
+            # Whereas, MADDPG has access to all other agents' policies
+            # TODO: grab only the current observation to send to the critic
+            t0_next_obs = [[], [], []]
+            for a in range(self.nagents):
+                t0_next_obs[a] = torch.tensor(np.zeros((next_obs[0].shape[0], 18)), dtype=torch.float)
+            for n in range(self.nagents):               # for each agents
+                for b in range(next_obs[0].shape[0]):   # for the number of batches
+                    t0_next_obs[n][b][:] = next_obs[n][b][0:18]
+
+            # Originally it would be next_obs[agent_i] instead of t0_next_obs[agent_i]
             if self.discrete_action:
-                trgt_vf_in = torch.cat((next_obs[agent_i],
+                trgt_vf_in = torch.cat((t0_next_obs[agent_i],
                                         onehot_from_logits(
                                             curr_agent.target_policy(
                                                 next_obs[agent_i]))),
@@ -165,7 +176,7 @@ class MADDPG(object):
         if self.alg_types[agent_i] == 'MADDPG':
             vf_in = torch.cat((*t0_obs, *acs), dim=1)
         else:  # DDPG  #TODO: below, might have to change obs to t0_obs, when using DDPG
-            vf_in = torch.cat((obs[agent_i], acs[agent_i]), dim=1)
+            vf_in = torch.cat((t0_obs[agent_i], acs[agent_i]), dim=1)
         actual_value = curr_agent.critic(vf_in)
         vf_loss = MSELoss(actual_value, target_value.detach())
         vf_loss.backward()
@@ -205,7 +216,7 @@ class MADDPG(object):
             #vf_in = torch.cat((*obs, *all_pol_acs), dim=1)
             vf_in = torch.cat((*t0_obs, *all_pol_acs), dim=1)
         else:  # DDPG
-            vf_in = torch.cat((obs[agent_i], curr_pol_vf_in),
+            vf_in = torch.cat((t0_obs[agent_i], curr_pol_vf_in),
                               dim=1)
         # TODO: FIX THIS
         pol_loss = -curr_agent.critic(vf_in).mean()

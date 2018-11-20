@@ -222,24 +222,24 @@ def parse_arguments():
     parser.add_argument("--n_rollout_threads", default=1, type=int)
     parser.add_argument("--n_training_threads", default=6, type=int)
     parser.add_argument("--buffer_length", default=int(1e6), type=int)
-    parser.add_argument("--n_episodes", default=38000, type=int)
+    parser.add_argument("--n_episodes", default=10000, type=int)
     parser.add_argument("--episode_length", default=25, type=int)
     parser.add_argument("--steps_per_update", default=100, type=int)
     parser.add_argument("--batch_size",
                         default=1024, type=int,
                         help="Batch size for model training")
-    parser.add_argument("--n_exploration_eps", default=35000, type=int)
-    parser.add_argument("--init_noise_scale", default=0.3, type=float)
+    parser.add_argument("--n_exploration_eps", default=9000, type=int)
+    parser.add_argument("--init_noise_scale", default=0.2, type=float)
     parser.add_argument("--final_noise_scale", default=0.0, type=float)
     parser.add_argument("--save_interval", default=1000, type=int)
     parser.add_argument("--hidden_dim", default=64, type=int)
     parser.add_argument("--lr", default=0.01, type=float)
     parser.add_argument("--tau", default=0.01, type=float)
     parser.add_argument("--agent_alg",
-                        default="MADDPG", type=str,
+                        default="DDPG", type=str,
                         choices=['MADDPG', 'DDPG'])
     parser.add_argument("--adversary_alg",
-                        default="MADDPG", type=str,
+                        default="DDPG", type=str,
                         choices=['MADDPG', 'DDPG'])
     parser.add_argument("--discrete_action",
                         action='store_true')
@@ -264,16 +264,6 @@ if __name__=="__main__":
 
     """
     TODO:
-    * (done) add history_buffer (concatenated observations) to replay buffer
-    * (done) create next_obs_history to store next state in replay buffer
-    * (done) call actions based on history_buffer
-    * Change RNN implementation to work with history_buffer
-    * remove for n in range() while populating histories
-    * modify RNN network to internally use history
-    * make RNN update work
-    * while checking len(replay_buffer), make it so that switch is done automatically
-    
-    Current errors:
-    maddpg.py: line 107
+    * make experiments work with DDPG
     
     """
