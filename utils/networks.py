@@ -77,7 +77,7 @@ class RNNNetwork(nn.Module):
 
         if constrain_out and not discrete_action:
             # initialize small to prevent saturation
-            self.i2o.weight.data.uniform_(-3e-3, 3e-3)
+            self.h2o.weight.data.uniform_(-3e-3, 3e-3)
             self.out_fn = F.tanh
         else:  # logits for discrete action (will softmax later)
             self.out_fn = lambda x: x

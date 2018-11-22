@@ -39,10 +39,15 @@ def run(config):
         obs_tminus_0 = copy(obs)
         obs_tminus_1 = copy(obs)
         obs_tminus_2 = copy(obs)
+
+        obs_tminus_3 = copy(obs)
+        obs_tminus_4 = copy(obs)
+        obs_tminus_5 = copy(obs)
+
         # TODO: obs_history shape different from main.py, so parameterize it based on "obs"
         # It is different because main.py can run multiple threads, so has an extra dimension
-        obs_history = np.empty([3,54])
-        next_obs_history = np.empty([3,54])
+        obs_history = np.empty([3,108])
+        next_obs_history = np.empty([3,108])
 
         if config.save_gifs:
             frames = []
@@ -57,8 +62,11 @@ def run(config):
 
             # Populate current history for RNN
             for a in range(3):  # env.nagents
-                    obs_history[a][:] = np.concatenate((obs_tminus_0[a][:], obs_tminus_1[a][:], obs_tminus_2[a][:]))
-                    # Now, temp has history of 3 timesteps for each agent
+                    #obs_history[a][:] = np.concatenate((obs_tminus_0[a][:], obs_tminus_1[a][:], obs_tminus_2[a][:]))
+                    obs_history[a][:] = np.concatenate(
+                        (obs_tminus_0[a][:], obs_tminus_1[a][:], obs_tminus_2[a][:],
+                         obs_tminus_3[a][:], obs_tminus_4[a][:], obs_tminus_5[a][:]))
+                    # Now, temp has history of 6 timesteps for each agent
 
             calc_start = time.time()
 
@@ -73,6 +81,10 @@ def run(config):
             next_obs, rewards, dones, infos = env.step(actions)
 
             # Update histories
+            obs_tminus_5 = copy(obs_tminus_4)
+            obs_tminus_4 = copy(obs_tminus_3)
+            obs_tminus_3 = copy(obs_tminus_2)
+
             obs_tminus_2 = copy(obs_tminus_1)
             obs_tminus_1 = copy(obs_tminus_0)
             obs_tminus_0 = copy(next_obs)
@@ -100,13 +112,13 @@ if __name__ == '__main__':
     parser.add_argument("--env_id", default="simple_spread", help="Name of environment")
     parser.add_argument("--model_name", default="Exp",
                         help="Name of model")
-    parser.add_argument("--run_num", default=178, type=int)
+    parser.add_argument("--run_num", default=55, type=int)
     parser.add_argument("--save_gifs", action="store_true",
                         help="Saves gif of each episode into model directory")
     parser.add_argument("--incremental", default=None, type=int,
                         help="Load incremental policy from given episode " +
                              "rather than final policy")
-    parser.add_argument("--n_episodes", default=10, type=int)
+    parser.add_argument("--n_episodes", default=100, type=int)
     parser.add_argument("--episode_length", default=25, type=int)
     parser.add_argument("--fps", default=30, type=int)
 

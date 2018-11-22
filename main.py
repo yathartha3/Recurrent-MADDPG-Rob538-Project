@@ -151,6 +151,26 @@ def run(config):
             actions = [[ac[i] for ac in agent_actions] for i in range(config.n_rollout_threads)]
             next_obs, rewards, dones, infos = env.step(actions)
 
+            ############### WHICH REWARD TO USE ##############
+            # the rewards now contain global as well as difference rewards
+            # Keep the global for logging, and difference for updates
+            # DIFFERENCE REWARDS
+            d_rewards = []
+            for n in range(maddpg.nagents):
+                d_rewards.append([rewards[0][n][1]])
+            d_rewards = [d_rewards]
+            d_rewards = np.array(d_rewards)
+
+            # GLOBAL REWARDS
+            g_rewards = []
+            for n in range(maddpg.nagents):
+                g_rewards.append([rewards[0][n][0]])
+            g_rewards = [g_rewards]
+            g_rewards = np.array(g_rewards)
+
+            # replace "reward" with "d_rewards"
+            rewards = g_rewards
+
             # Create history for next state
             '''
             history is [t, t-1, t-2]
@@ -222,13 +242,13 @@ def parse_arguments():
     parser.add_argument("--n_rollout_threads", default=1, type=int)
     parser.add_argument("--n_training_threads", default=6, type=int)
     parser.add_argument("--buffer_length", default=int(1e6), type=int)
-    parser.add_argument("--n_episodes", default=10000, type=int)
+    parser.add_argument("--n_episodes", default=25000, type=int)
     parser.add_argument("--episode_length", default=25, type=int)
     parser.add_argument("--steps_per_update", default=100, type=int)
     parser.add_argument("--batch_size",
                         default=1024, type=int,
                         help="Batch size for model training")
-    parser.add_argument("--n_exploration_eps", default=9000, type=int)
+    parser.add_argument("--n_exploration_eps", default=25000, type=int)
     parser.add_argument("--init_noise_scale", default=0.2, type=float)
     parser.add_argument("--final_noise_scale", default=0.0, type=float)
     parser.add_argument("--save_interval", default=1000, type=int)
@@ -236,13 +256,13 @@ def parse_arguments():
     parser.add_argument("--lr", default=0.01, type=float)
     parser.add_argument("--tau", default=0.01, type=float)
     parser.add_argument("--agent_alg",
-                        default="DDPG", type=str,
+                        default="MADDPG", type=str,
                         choices=['MADDPG', 'DDPG'])
     parser.add_argument("--adversary_alg",
-                        default="DDPG", type=str,
+                        default="MADDPG", type=str,
                         choices=['MADDPG', 'DDPG'])
     parser.add_argument("--discrete_action",
-                        action='store_true')
+                        action='store_false')
 
 
 
@@ -262,8 +282,4 @@ if __name__=="__main__":
     run(config)
     print("Done")
 
-    """
-    TODO:
-    * make experiments work with DDPG
-    
-    """
+    # TODO: NOTE: if there is mismatch, change discrete_action in environment.
