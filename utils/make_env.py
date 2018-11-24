@@ -36,7 +36,7 @@ def make_env(scenario_name, benchmark=False, discrete_action=False):
     scenario = scenarios.load(scenario_name + ".py").Scenario()
     # create world
     world = scenario.make_world()
-    world.discrete_action = discrete_action         #TODO: I ADDED THIS LINE, else it gives error
+    #world.discrete_action = discrete_action         #TODO: I ADDED THIS LINE, else it gives error
     # create multiagent environment
     if benchmark:        
         env = MultiAgentEnv(world, scenario.reset_world, scenario.reward,

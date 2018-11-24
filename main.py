@@ -279,6 +279,7 @@ if __name__=="__main__":
     if rnn:
         history_steps = 6
 
+    config.discrete_action = True
     run(config)
     print("Done")
 

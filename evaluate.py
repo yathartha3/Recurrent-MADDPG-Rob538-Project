@@ -112,7 +112,7 @@ if __name__ == '__main__':
     parser.add_argument("--env_id", default="simple_spread", help="Name of environment")
     parser.add_argument("--model_name", default="Exp",
                         help="Name of model")
-    parser.add_argument("--run_num", default=55, type=int)
+    parser.add_argument("--run_num", default=58, type=int)
     parser.add_argument("--save_gifs", action="store_true",
                         help="Saves gif of each episode into model directory")
     parser.add_argument("--incremental", default=None, type=int,
@@ -123,5 +123,6 @@ if __name__ == '__main__':
     parser.add_argument("--fps", default=30, type=int)
 
     config = parser.parse_args()
+    config.save_gifs = True
 
     run(config)
