@@ -103,17 +103,18 @@ class RNNNetwork(nn.Module):
         init_memory = torch.tensor(np.zeros((X.shape[0],self.hidden_dim)), dtype=torch.float)
 
         X = torch.cat((hist_tminus_5, init_memory), 1)      # oldest history and intialization
-        X = self.i2h2(self.i2h1(X))                         # Now, X is of shape hidden_dim
+        X = self.nonlin(self.i2h2(self.nonlin(self.i2h1(X))))                # Now, X is of shape hidden_dim
         X = torch.cat((hist_tminus_4, X), 1)
-        X = self.i2h2(self.i2h1(X))
+        X = self.nonlin(self.i2h2(self.nonlin(self.i2h1(X))))
         X = torch.cat((hist_tminus_3, X), 1)
-        X = self.i2h2(self.i2h1(X))
+        X = self.nonlin(self.i2h2(self.nonlin(self.i2h1(X))))
         X = torch.cat((hist_tminus_2, X), 1)
-        X = self.i2h2(self.i2h1(X))
+        X = self.nonlin(self.i2h2(self.nonlin(self.i2h1(X))))
         X = torch.cat((hist_tminus_1, X), 1)
-        X = self.i2h2(self.i2h1(X))
+        X = self.nonlin(self.i2h2(self.nonlin(self.i2h1(X))))
         X = torch.cat((hist_tminus_0, X), 1)
         X = self.h2o(X)
+        # forgot to do the non-linear activations for the paper's results
         return X
 
     def initHidden(self):

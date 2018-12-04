@@ -19,6 +19,9 @@ def run(config):
     else:
         model_path = model_path / 'model.pt'
 
+
+    print("\n"+str(model_path)+"\n\n\n")
+
     if config.save_gifs:
         gif_path = model_path.parent / 'gifs'
         gif_path.mkdir(exist_ok=True)
@@ -118,11 +121,12 @@ if __name__ == '__main__':
     parser.add_argument("--incremental", default=None, type=int,
                         help="Load incremental policy from given episode " +
                              "rather than final policy")
-    parser.add_argument("--n_episodes", default=100, type=int)
+    parser.add_argument("--n_episodes", default=10, type=int)
     parser.add_argument("--episode_length", default=25, type=int)
     parser.add_argument("--fps", default=30, type=int)
 
     config = parser.parse_args()
-    config.save_gifs = True
+    config.save_gifs = False
+    config.incremental = True
 
     run(config)

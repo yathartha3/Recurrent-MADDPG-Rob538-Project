@@ -66,7 +66,7 @@ def run(config):
                                   lr=config.lr,
                                   hidden_dim=config.hidden_dim,
                                   )
-    if not rnn:
+    if not rnn:    # TODO: this might break. code might not be modular (yet). Code works with RNN
         replay_buffer = ReplayBuffer(config.buffer_length, maddpg.nagents,
                                      [obsp.shape[0] for obsp in env.observation_space],
                                      [acsp.shape[0] if isinstance(acsp, Box) else acsp.n
@@ -77,6 +77,12 @@ def run(config):
                                      [obsp.shape[0]*history_steps for obsp in env.observation_space],
                                      [acsp.shape[0] if isinstance(acsp, Box) else acsp.n
                                       for acsp in env.action_space])
+
+        # This is just to store the global rewards and not for updating the policies
+        g_storage_buffer = ReplayBuffer(config.buffer_length, maddpg.nagents,
+                                        [obsp.shape[0]*history_steps for obsp in env.observation_space],
+                                        [acsp.shape[0] if isinstance(acsp, Box) else acsp.n
+                                         for acsp in env.action_space])
 
     t = 0
     #####################################################################################################
@@ -95,7 +101,6 @@ def run(config):
         obs_tminus_0 = copy(obs)
         obs_tminus_1 = copy(obs)
         obs_tminus_2 = copy(obs)
-
         obs_tminus_3 = copy(obs)
         obs_tminus_4 = copy(obs)
         obs_tminus_5 = copy(obs)
@@ -127,7 +132,7 @@ def run(config):
                                                       obs_tminus_3[0][a][:], obs_tminus_4[0][a][:], obs_tminus_5[0][a][:]))
                 # Now, temp has history of 6 timesteps for each agent
 
-            if not rnn:
+            if not rnn:    # TODO: This might break. Code works with RNN. !RNN not tested.
                 # rearrange observations to be per agent, and convert to torch Variable
                 torch_obs = [Variable(torch.Tensor(np.vstack(obs[:, i])),
                                       requires_grad=False)
@@ -154,6 +159,9 @@ def run(config):
             ############### WHICH REWARD TO USE ##############
             # the rewards now contain global as well as difference rewards
             # Keep the global for logging, and difference for updates
+
+            use_diff_reward = False    #TODO: THIS IS THE TYPE OF REWARD YOU USE
+
             # DIFFERENCE REWARDS
             d_rewards = []
             for n in range(maddpg.nagents):
@@ -168,8 +176,11 @@ def run(config):
             g_rewards = [g_rewards]
             g_rewards = np.array(g_rewards)
 
-            # replace "reward" with "d_rewards"
-            rewards = g_rewards
+            # replace "reward" with the reward that you want to use
+            if use_diff_reward:
+                rewards = d_rewards
+            else:
+                rewards = g_rewards
 
             # Create history for next state
             '''
@@ -186,7 +197,10 @@ def run(config):
                 replay_buffer.push(obs, agent_actions, rewards, next_obs, dones)
                 obs = next_obs
             else:
+                # Buffer used for updates
                 rnn_replay_buffer.push(obs_history, agent_actions, rewards, next_obs_history, dones)
+                # push global rewards into g_replay_buffer
+                g_storage_buffer.push(obs_history, agent_actions, g_rewards, next_obs_history, dones)
 
             # Update histories
             obs_tminus_5 = copy(obs_tminus_4)
@@ -211,7 +225,8 @@ def run(config):
                         maddpg.update(sample, a_i, logger=logger)
                     maddpg.update_all_targets()
                 maddpg.prep_rollouts(device='cpu')
-        ep_rews = rnn_replay_buffer.get_average_rewards(
+        # For plotting, use global reward achieved using difference rewards
+        ep_rews = g_storage_buffer.get_average_rewards(
             config.episode_length * config.n_rollout_threads)
         for a_i, a_ep_rew in enumerate(ep_rews):
             logger.add_scalar('agent%i/mean_episode_rewards' % a_i, a_ep_rew, ep_i)
@@ -242,16 +257,16 @@ def parse_arguments():
     parser.add_argument("--n_rollout_threads", default=1, type=int)
     parser.add_argument("--n_training_threads", default=6, type=int)
     parser.add_argument("--buffer_length", default=int(1e6), type=int)
-    parser.add_argument("--n_episodes", default=25000, type=int)
+    parser.add_argument("--n_episodes", default=8000, type=int)
     parser.add_argument("--episode_length", default=25, type=int)
     parser.add_argument("--steps_per_update", default=100, type=int)
     parser.add_argument("--batch_size",
                         default=1024, type=int,
                         help="Batch size for model training")
-    parser.add_argument("--n_exploration_eps", default=25000, type=int)
+    parser.add_argument("--n_exploration_eps", default=8000, type=int)
     parser.add_argument("--init_noise_scale", default=0.2, type=float)
     parser.add_argument("--final_noise_scale", default=0.0, type=float)
-    parser.add_argument("--save_interval", default=1000, type=int)
+    parser.add_argument("--save_interval", default=500, type=int)
     parser.add_argument("--hidden_dim", default=64, type=int)
     parser.add_argument("--lr", default=0.01, type=float)
     parser.add_argument("--tau", default=0.01, type=float)
