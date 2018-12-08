@@ -2,8 +2,11 @@
 The orginal code for MADDPG is from https://github.com/shariqiqbal2810/maddpg-pytorch.
 It requires a modified Multiagent Particle Environment (see our other repo: MPE_modified), and Baselines repo from OpenAI which I have kindly included in this repo (but maybe not a good practice).
 
+See report.
+
 ### Changes that we made:
-* TODOss
+* Implemented an RNN on top of MADDPG. (Very crude implementation with a history of 5 time-steps, and the code is not modular to change this very easily)
+* Used reward shaping using counterfactuals
 
 # MADDPG-PyTorch
 PyTorch Implementation of MADDPG from [*Multi-Agent Actor-Critic for Mixed
